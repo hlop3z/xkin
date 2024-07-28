@@ -1,0 +1,162 @@
+$NAME: "toggle";
+$base: 0.7;
+
+// Size and font variables
+$sizes: (
+  small: 18px,
+  medium: 24px,
+  large: 32px,
+);
+
+$fonts: (
+  small: map-get($sizes, small) * $base,
+  medium: map-get($sizes, medium) * $base,
+  large: map-get($sizes, large) * $base,
+);
+
+/* Insert "•" content */
+.bullet::before {
+  content: "•";
+}
+
+/* Insert "✓" content */
+
+.#{$NAME} {
+  display: inline-flex;
+  border: solid 2px #757575;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+  font-family: Roboto, Arial, sans-serif !important;
+  overflow: hidden;
+  background-color: white;
+  font-weight: bolder;
+
+  // Default Medium (md)
+  height: map-get($sizes, medium);
+  width: map-get($sizes, medium);
+  font-size: map-get($fonts, medium);
+
+  .checkmark::before {
+    content: "✓";
+  }
+
+  .checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  &.is-small {
+    height: map-get($sizes, small);
+    width: map-get($sizes, small);
+    font-size: map-get($fonts, small);
+  }
+
+  &.is-large {
+    height: map-get($sizes, large);
+    width: map-get($sizes, large);
+    font-size: map-get($fonts, large);
+  }
+
+  &.radio {
+    border-radius: 100%;
+    font-size: map-get($sizes, medium) * 1.6;
+    &.is-small {
+      font-size: map-get($sizes, small) * 1.6;
+    }
+    &.is-large {
+      font-size: map-get($sizes, large) * 1.8;
+    }
+    .checkmark::before {
+      content: "•";
+    }
+  }
+
+  .checkmark {
+    color: inherit;
+    opacity: 0;
+    // transition: opacity 0.5s ease;
+  }
+
+  .checkmark.active {
+    opacity: 1;
+  }
+}
+
+$switch-height: 8px;
+
+.#{$NAME}-switch {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 2px;
+  border-radius: 900px;
+
+  .switch-box {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 900px;
+    background-color: #757575;
+    width: 40px;
+    max-height: $switch-height;
+  }
+
+  .checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .box-fill {
+    position: absolute;
+    opacity: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 900px;
+  }
+
+  .switch {
+    position: absolute;
+    border-radius: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-5%);
+    background-color: white;
+    min-width: map-get($sizes, medium);
+    min-height: map-get($sizes, medium);
+    transition: transform 0.4s ease;
+  }
+
+  &.is-small {
+    .switch-box {
+      width: 30px;
+      max-height: $switch-height * 0.7;
+    }
+    .switch {
+      min-width: map-get($sizes, small);
+      min-height: map-get($sizes, small);
+      top: 50%;
+      transform: translateY(-50%) translateX(-5%);
+    }
+  }
+
+  &.is-large {
+    .switch-box {
+      width: 50px;
+      max-height: $switch-height * 1.4;
+    }
+    .switch {
+      min-width: map-get($sizes, large);
+      min-height: map-get($sizes, large);
+      top: 50%;
+      transform: translateY(-50%) translateX(-5%);
+    }
+  }
+
+  &.active {
+    .switch {
+      transform: translateY(-50%) translateX(75%);
+    }
+  }
+}

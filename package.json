@@ -1,0 +1,22 @@
+{
+  "name": "xkin",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build && npm run build:rollup && npm run build:cleanup",
+    "preview": "vite preview",
+    "build:rollup": "rollup -c",
+    "build:cleanup": "rm dist/index.js"
+  },
+  "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.4",
+    "cssnano": "^6.1.2",
+    "postcss": "^8.4.39",
+    "rollup": "^3.29.4",
+    "sass": "^1.77.8",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.4"
+  }
+}

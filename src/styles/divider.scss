@@ -1,0 +1,43 @@
+$NAME: "divider";
+
+// .#{$NAME} { color: red; }
+$divider: (
+  "md": 2,
+  "lg": 3,
+  "xl": 4,
+);
+
+$shrink: (
+  "md": 95%,
+  "lg": 85%,
+  "xl": 75%,
+);
+
+.#{$NAME} {
+  border: 1px solid;
+  width: 100%;
+
+  &.vertical {
+    height: 100%;
+    width: 1px;
+  }
+
+  @each $name, $size in $divider {
+    &.#{$name}-width {
+      border-width: $size * 1px;
+    }
+    &.#{$name}-width.vertical {
+      width: $size * 1px;
+    }
+  }
+
+  @each $name, $size in $shrink {
+    &.#{$name}-shrink {
+      width: $size;
+    }
+    &.#{$name}-shrink.vertical {
+      height: $size;
+      width: 1px;
+    }
+  }
+}
