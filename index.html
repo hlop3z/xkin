@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Icon -->
-    <link rel="icon" type="image/x-icon" href="/logo.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!-- Title -->
-    <title>X-Kin</title>
+  <!-- Icon -->
+  <link rel="icon" type="image/x-icon" href="/logo.png" />
 
-    <!-- Xtylist (CSS) -->
-    <link href="https://unpkg.com/xtyle-css@latest" rel="stylesheet" />
+  <!-- Title -->
+  <title>X-Kin</title>
 
-    <!-- Material -->
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-    />
+  <!-- Xtylist (CSS) -->
+  <link href="https://unpkg.com/xtyle-css@latest" rel="stylesheet" />
 
-    <!-- Animate (CSS) -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-    />
-  </head>
+  <!-- Material -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
-  <body>
-    <!-- Header -->
-    <header class="lt">Header</header>
+  <!-- Animate (CSS) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+</head>
 
-    <!-- Main -->
-    <main class="lm lc-l lc-r lc-t lc-b">Application</main>
+<body>
+  <!-- Header -->
+  <header class="lt" layout="header">Header</header>
 
-    <!-- Drawers -->
-    <aside class="ll lc-t lc-b ld open">Left</aside>
-    <aside class="lr lc-t lc-b ld open">Right</aside>
+  <!-- Main -->
+  <main class="lm lc-l lc-r lc-t lc-b">Application
+    <button class="button">Click Me</button>
+  </main>
 
-    <!-- Drawers (mini) -->
-    <aside class="ll lc-t lc-b ld mini open">Left-Mini</aside>
-    <aside class="lr lc-t lc-b ld mini open">Right-Mini</aside>
+  <!-- Drawers -->
+  <aside class="ll lc-t lc-b ld ta-r sr-4 open" layout="left">Left</aside>
+  <aside class="lr lc-t lc-b ld sl-4 open" layout="right">Right</aside>
 
-    <!-- Footer -->
-    <footer class="lb">Footer</footer>
+  <!-- Drawers (mini) -->
+  <aside class="ll lc-t lc-b ld mini open">Left-Mini</aside>
+  <aside class="lr lc-t lc-b ld mini open">Right-Mini</aside>
 
-    <script type="module" src="/index.ts"></script>
-  </body>
+  <!-- Footer -->
+  <footer class="lb">Footer</footer>
+
+  <script type="module" src="/index.ts"></script>
+</body>
+
 </html>
