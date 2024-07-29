@@ -12,9 +12,9 @@
 >
   <span style="font-size: 2em;">Links</span>
   <br /><br />
-  <a href="https://github.com/hlop3z/vueky" target="_blank"> Github </a>
+  <a href="https://github.com/hlop3z/xkin" target="_blank"> Github </a>
   <br /><br />
-  <a href="https://hlop3z.github.io/vueky/" target="_blank"> Docs </a>
+  <a href="https://hlop3z.github.io/xkin/" target="_blank"> Docs </a>
 </p>
 
 ---

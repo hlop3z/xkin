@@ -1,6 +1,6 @@
 {
   "name": "xkin",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "A lightweight library for control, styling and themes.",
   "author": "hlop3z",
   "license": "MIT",
@@ -27,12 +27,12 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hlop3z/vueky.git"
+    "url": "git+https://github.com/hlop3z/xkin.git"
   },
   "bugs": {
-    "url": "https://github.com/hlop3z/vueky/issues"
+    "url": "https://github.com/hlop3z/xkin/issues"
   },
-  "homepage": "https://github.com/hlop3z/vueky#readme",
+  "homepage": "https://github.com/hlop3z/xkin#readme",
   "files": [
     "dist"
   ]
