@@ -112,13 +112,20 @@ class StyledComponent {
     };
   }
 
-  theme(name: string, props: any = {}) {
+  theme(name?: string, props: any = {}) {
     const { theme, base, setup } = this.config;
+    const css = setup(props);
+
+    if (!name) {
+      return {
+        class: objectToClass([base.class, css.class]),
+        style: objectToStyle([base.style, css.style]),
+      };
+    }
+
     const themeConfig = theme[name];
 
     if (themeConfig) {
-      const css = setup(props);
-
       return {
         class: objectToClass([base.class, css.class, themeConfig.class]),
         style: objectToStyle([base.style, css.style, themeConfig.style]),

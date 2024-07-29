@@ -17,7 +17,7 @@ class ThemeCreator {
     base = {},
     dark = {},
     disable = [],
-    zebra = true,
+    zebra = false,
     darkMode = undefined,
   }: any) {
     const isDark = darkMode === undefined ? IS_DARK : darkMode;

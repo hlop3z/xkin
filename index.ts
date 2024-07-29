@@ -1,9 +1,17 @@
 // @ts-nocheck
-import Plugin from "./src/__init__.ts";
+import xkin from "./src/__init__.ts";
 
-console.log(Plugin);
+xkin.gui("x-layout", {
+  left: "left-id",
+  right: "right-id",
+});
 
-const demoComponent = {
+setInterval(() => {
+  xkin.$gui.left.toggle("open");
+  xkin.$gui.right.toggle("open");
+}, 1000);
+
+const myComponent = {
   base: {
     class: "button",
     style: "",
@@ -26,12 +34,15 @@ const demoComponent = {
     },
     error: {
       class: "color-bg-danger",
-      style: "width: 300px",
+      style: "",
     },
   },
 };
 
-const component = Plugin.component(demoComponent);
+const component = xkin.component(myComponent);
+
+// const _el = Plugin.control(".button");
+// console.log(Object.keys(_el));
 
 const Button = component({
   type: "submit",
@@ -49,7 +60,9 @@ setTimeout(() => {
   console.log(error);
 }, 1000);
 
-Plugin.get("layout", "left")
+/*
+xkin
+  .get("x-layout", "left")
   ?.css({
     active: {
       class: "color-bg-success",
@@ -63,21 +76,21 @@ Plugin.get("layout", "left")
   .theme("error");
 
 setTimeout(() => {
-  const theme = Plugin.get("layout", "left")?.theme("active");
+  const element = xkin.get("x-layout", "left");
+  element.theme("active");
+  setTimeout(() => element.theme("error"), 1000);
 });
-
-/*
-setInterval(() => {
-  Plugin.get("layout", "left")?.toggle("open");
-
-  Plugin.get("layout", "left").current.setAttribute(
-    "style",
-    "padding-top: 40px; padding-right: 20px"
-  );
-
-  console.log(Plugin.get("layout", "left").current);
-}, 1000);
 */
+
+(function () {
+  const admin = xkin.control("#container");
+
+  const button = admin.get(".single");
+  const groups = admin.find(".group");
+
+  console.log(button.current);
+  console.log(groups);
+})();
 
 /*
 console.log(Plugin.class({ "is-small": true }));

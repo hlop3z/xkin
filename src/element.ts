@@ -84,36 +84,34 @@ function elementAdmin(refAdmin: HTMLElement): RefAdmin {
     },
     css(props: any) {
       // @ts-ignore
-      if (!this.current.__xkin__) {
-        const args = props || {};
-        const config = {
-          theme: args,
-          base: {
+      const args = props || {};
+      const config = {
+        theme: args,
+        base: {
+          class: this.current.className,
+          style: this.current.getAttribute("style"),
+        },
+      };
+      const component = Styled(config)({});
+      const method = (name: string, setter: boolean = true) => {
+        const admin = component.theme(name);
+        if (setter) {
+          const current = {
             class: this.current.className,
             style: this.current.getAttribute("style"),
-          },
-        };
-        const component = Styled(config)({});
-        const method = (name: string, setter: boolean = true) => {
-          const admin = component.theme(name);
-          if (setter) {
-            const current = {
-              class: this.current.className,
-              style: this.current.getAttribute("style"),
-            };
-            if (current.class !== admin.class) {
-              this.current.className = admin.class;
-            }
-            if (current.style !== admin.style) {
-              this.current.setAttribute("style", admin.style);
-            }
+          };
+          if (current.class !== admin.class && admin.class !== undefined) {
+            this.current.className = admin.class;
           }
-        };
+          if (current.style !== admin.style && admin.style !== undefined) {
+            this.current.setAttribute("style", admin.style);
+          }
+        }
+      };
 
-        // @ts-ignore
-        this.current.__xkin__ = method;
-        return this;
-      }
+      // @ts-ignore
+      this.current.__xkin__ = method;
+      return this;
     },
   };
   return self;
