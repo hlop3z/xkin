@@ -1,4 +1,23 @@
-# XKin
+<h1 style="font-size: 5em; letter-spacing: -2px; font-family: Georgia, sans-serif;" align="center">
+   Welcome to <strong>XKin</strong>
+</h1>
+
+<p align="center" style="font-size: 2.5em; letter-spacing: -2px; font-family: Georgia, sans-serif;" >
+   A lightweight library for control, styling and themes.
+</p>
+
+<p
+  align="center"
+  style="font-size: 2.5em; letter-spacing: -2px; font-family: Georgia, sans-serif;"
+>
+  <span style="font-size: 2em;">Links</span>
+  <br /><br />
+  <a href="https://github.com/hlop3z/vueky" target="_blank"> Github </a>
+  <br /><br />
+  <a href="https://hlop3z.github.io/vueky/" target="_blank"> Docs </a>
+</p>
+
+---
 
 XKin is a modern, super **lightweight** alternative to jQuery, designed specifically for color palette design and styling. It provides simple **control for existing elements** and basic layout management. The library includes features for applying styles and classes, handling complex components, and integrating a theme system. Additionally, it offers tools for extending other projects, such as **Vue**, **Alpine**, and **React**.
 
@@ -11,11 +30,11 @@ XKin is a modern, super **lightweight** alternative to jQuery, designed specific
 | **`$gui`**      | Manage and control the layout            |
 | **`find`**      | Custom `querySelectorAll` implementation |
 | **`get`**       | Custom `querySelector` implementation    |
-| **`blankForm`** | Generate a form object from a schema     |
 | **`style`**     | Convert object to `CSS` styles           |
 | **`class`**     | Convert object to `CSS` classes          |
-| **`component`** | Style and manage complex components      |
 | **`theme`**     | Build and inject `CSS` for themes        |
+| **`component`** | Style and manage complex components      |
+| **`blankForm`** | Generate a form object from a schema     |
 
 ## Usage
 

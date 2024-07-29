@@ -11,7 +11,7 @@ export function Layout(engine: any) {
       layout[name] = querySelector(attr, layoutID);
     });
 
-    engine.$layout = layout;
+    engine.$gui = layout;
     return layout;
   };
 }

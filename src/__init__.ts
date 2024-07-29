@@ -3,7 +3,7 @@
 
 import { createAdmin, querySelector, querySelectorAll } from "./element";
 import { objectToClass, objectToStyle, Styled, blankForm } from "./styling";
-import { Layout } from "./layout";
+import { Layout } from "./gui";
 import theme from "./theme";
 
 const Project = {

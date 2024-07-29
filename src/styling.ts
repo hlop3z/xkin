@@ -105,9 +105,9 @@ class StyledComponent {
     const css = setup(props);
 
     return {
-      attrs: attributes,
       class: objectToClass([base.class, css.class]),
       style: objectToStyle([base.style, css.style]),
+      attrs: attributes,
       theme: (name: string) => this.theme(name, props),
     };
   }

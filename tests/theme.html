@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Icon -->
+  <link rel="icon" type="image/x-icon" href="/logo.png" />
+
+  <!-- Title -->
+  <title>X-Kin</title>
+
+  <!-- Xtylist (CSS) -->
+  <link href="https://unpkg.com/xtyle-css@latest" rel="stylesheet" />
+
+  <!-- Library -->
+  <script src="./lib/index.min.js"></script>
+
+  <!-- Globlas -->
+  <script src="./__app.js"></script>
+  <link href="./__app.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="lt d-f dx-ce dy-ce sb-4" layout="header">Header</header>
+
+  <!-- Main -->
+  <main class="lm lc-l lc-r lc-t lc-b ta-c">
+    Application
+
+    <button id="my-button">Click Me</button>
+  </main>
+
+  <!-- Drawers -->
+  <aside class="ll lc-t lc-b ld ta-c sr-4 open" x-layout="left-id"></aside>
+  <aside class="lr lc-t lc-b ld sl-4 open" x-layout="right-id">Right</aside>
+
+
+  <!-- Footer -->
+  <footer class="lb d-f dx-ce dy-ce st-4">Footer</footer>
+
+  <script>
+    xkin.get("x-layout", "left-id").current.innerHTML = MENU.trim()
+
+    const admin = xkin.control("#my-button");
+
+    admin.css({
+      active: {
+        class: "color-bg-success",
+        style: "height: 60px",
+      },
+      error: {
+        class: "color-bg-danger",
+        style: "height: 40px",
+      },
+    });
+
+    // Activate "active" theme
+    setInterval(() => {
+      admin.theme("active");
+
+      // Switch to "error" theme
+      setTimeout(() => admin.theme("error"), 1500);
+
+      // Reset theme
+      setTimeout(() => admin.theme(), 3000);
+
+    }, 4000)
+
+    // THEME SETUP
+    const isDark =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    xkin.theme.set({
+      darkMode: isDark,
+      zebra: true, // Enable zebra striping for tables
+      disable: [
+        //  Disable specific color types if needed:
+        // "text", "background", "border", "table"
+      ],
+      base: {
+        // Core colors
+        none: "transparent", // No color
+        white: "white", // White
+        black: "black", // Black
+        gray: "#a5a5a5", // Gray
+
+        // Basic colors
+        light: "#fff", // Light
+        dark: "#424242", // Dark
+        context: "#616161", // Contextual color
+
+        // Utility colors
+        success: "#4CAF50", // Success
+        danger: "#F44336", // Danger
+        warning: "#ff9800", // Warning
+        info: "#2196F3", // Info
+
+        // Theme colors
+        primary: "#ba68c8", // Primary
+        secondary: "#c2185b", // Secondary
+      },
+      dark: {
+        // Basic colors for dark mode
+        context: "#a5a5a5", // Contextual color
+
+        // Utility colors for dark mode
+        success: "#0f5132", // Success
+        danger: "#B71C1C", // Danger
+        warning: "#ff9800", // Warning
+        info: "#2196F3", // Info
+
+        // Theme colors for dark mode
+        primary: "#ba68c8", // Primary
+        secondary: "#c2185b", // Secondary
+      },
+    });
+  </script>
+</body>
+
+</html>

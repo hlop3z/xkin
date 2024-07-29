@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Icon -->
+  <link rel="icon" type="image/x-icon" href="/logo.png" />
+
+  <!-- Title -->
+  <title>X-Kin</title>
+
+  <!-- Xtylist (CSS) -->
+  <link href="https://unpkg.com/xtyle-css@latest" rel="stylesheet" />
+
+  <!-- Library -->
+  <script src="./lib/index.min.js"></script>
+
+  <!-- Globlas -->
+  <script src="./__app.js"></script>
+  <link href="./__app.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="lt d-f dx-ce dy-ce sb-4" layout="header">Header</header>
+
+  <!-- Main -->
+  <main class="lm lc-l lc-r lc-t lc-b d-f dx-ce dy-ce" id="my-app">
+    <h1>Application</h1>
+  </main>
+
+  <!-- Drawers -->
+  <aside class="ll lc-t lc-b ld ta-c sr-4 open" x-layout="left-id"></aside>
+  <aside class="lr lc-t lc-b ld sl-4 open" x-layout="right-id">Right</aside>
+
+
+  <!-- Footer -->
+  <footer class="lb d-f dx-ce dy-ce st-4">Footer</footer>
+
+  <script>
+    xkin.get("x-layout", "left-id").current.innerHTML = MENU.trim()
+
+    const admin = xkin.control("#my-app");
+
+    setInterval(() => {
+      admin.hide();
+      setTimeout(() => admin.show(), 1000);
+    }, 2000)
+
+  </script>
+</body>
+
+</html>
