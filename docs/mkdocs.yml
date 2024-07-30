@@ -1,0 +1,62 @@
+site_name: X-Kin
+site_url: https://hlop3z.github.io/xkin
+repo_url: https://github.com/hlop3z/xkin
+copyright: Copyright © Hlop3z
+
+nav:
+  - Introduction: index.md
+  - Control: control.md
+  - GUI: gui.md
+  - Theme: theme.md
+  - Component: component.md
+  - Utils: utils.md
+  - Integration:
+      - Vue: integration/vue.md
+      - Preact: integration/preact.md
+      - Alpine: integration/alpine.md
+# Configurations
+extra_css:
+  - css/extra.css
+
+theme:
+  name: material
+  locale: en
+  features:
+    #- navigation.tabs
+    - navigation.instant
+    - navigation.tracking
+    - navigation.sections
+    - navigation.top
+    - content.code.annotate
+    - content.code.copy
+    # - navigation.expand
+  icon:
+    logo: material/atom
+    # https://pictogrammers.com/library/mdi/
+
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: green
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: green
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+markdown_extensions:
+  - tables
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.snippets
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg

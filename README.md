@@ -3,7 +3,7 @@
 </h1>
 
 <p align="center" style="font-size: 2.5em; letter-spacing: -2px; font-family: Georgia, sans-serif;" >
-   A lightweight library for control, styling and themes.
+   A lightweight (~5k) library for control, styling and themes.
 </p>
 
 <p
@@ -19,7 +19,13 @@
 
 ---
 
-XKin is a modern, super **lightweight** alternative to jQuery, designed specifically for color palette design and styling. It provides simple **control for existing elements** and basic layout management. The library includes features for applying styles and classes, handling complex components, and integrating a theme system. Additionally, it offers tools for extending other projects, such as **Vue**, **Alpine**, and **React**.
+XKin is a modern, super **lightweight** alternative to jQuery, designed specifically for color palette design and styling. It provides simple **control for existing elements** and basic layout management. The library includes features for applying styles and classes, handling complex components, and integrating a theme system. Additionally, it offers tools for extending other projects, such as **Vue**, **Alpine**, and **Preact**.
+
+## CDN Install
+
+```html
+<script src="https://unpkg.com/xkin@latest" type="text/javascript"></script>
+```
 
 ## Features
 

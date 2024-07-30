@@ -27,9 +27,12 @@
   <header class="lt d-f dx-ce dy-ce sb-4" layout="header">Header</header>
 
   <!-- Main -->
-  <main class="lm lc-l lc-r lc-t lc-b ta-c">
-    Application
-
+  <main class="lm lc-l lc-r lc-t lc-b ta-c d-f dx-ce dy-ce df-col">
+    <div>
+      Application
+      <button class="color-bg-primary color-tx-white pa-4">Theme</button>
+    </div>
+    <br /><br />
     <button id="my-button">Click Me</button>
   </main>
 
@@ -44,6 +47,13 @@
   <script>
     xkin.get("x-layout", "left-id").current.innerHTML = MENU.trim()
 
+    // Toggle Dark and Light
+    setInterval(() => {
+      xkin.theme.toggle();
+    }, 1000)
+
+
+    // Element Themes
     const admin = xkin.control("#my-button");
 
     admin.css({
@@ -68,6 +78,7 @@
       setTimeout(() => admin.theme(), 3000);
 
     }, 4000)
+
 
     // THEME SETUP
     const isDark =
@@ -114,8 +125,8 @@
         info: "#2196F3", // Info
 
         // Theme colors for dark mode
-        primary: "#ba68c8", // Primary
-        secondary: "#c2185b", // Secondary
+        primary: "#c2185b", // Primary
+        secondary: "#ba68c8", // Secondary
       },
     });
   </script>
