@@ -1,26 +1,7 @@
-// @ts-nocheck
-// import "./styles/__init__.scss";
+import * as components from "./components/index";
+import { layout } from "./components/gui";
 
-import { createAdmin, querySelector, querySelectorAll } from "./element";
-import { objectToClass, objectToStyle, Styled, blankForm } from "./styling";
-import { Layout } from "./gui";
-import theme from "./theme";
-
-const Project = {
-  // Elements
-  control: createAdmin,
-  find: querySelectorAll,
-  get: querySelector,
-  // CSS
-  style: objectToStyle,
-  class: objectToClass,
-  // Complex
-  component: Styled,
-  blankForm: blankForm,
-  // Colors
-  theme: theme,
-  $gui: {},
-  gui: (attr, options) => Layout(Project)(attr, options),
+export default {
+  ...components,
+  $gui: layout,
 };
-
-export default Project;

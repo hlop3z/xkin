@@ -1,0 +1,5 @@
+/**
+ * @example
+ *
+ * console.log("docs")
+ */

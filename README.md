@@ -27,6 +27,18 @@ XKin is a modern, super **lightweight** alternative to jQuery, designed specific
 <script src="https://unpkg.com/xkin@latest" type="text/javascript"></script>
 ```
 
+## NPM Install
+
+```sh
+npm i xkin
+```
+
+## Typescript (`Reference`)
+
+```html
+/// <reference types="./node_modules/xkin/dist/index.d.ts" />
+```
+
 ## Features
 
 | Name            | Description                              |

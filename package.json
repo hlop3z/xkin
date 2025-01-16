@@ -1,39 +1,33 @@
 {
   "name": "xkin",
-  "version": "0.1.0",
-  "description": "A lightweight library for control, styling and themes.",
+  "version": "0.1.1",
   "author": "hlop3z",
-  "license": "MIT",
-  "type": "module",
-  "main": "./dist/index.min.js",
-  "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "tsc && vite build && npm run build:rollup",
-    "preview": "vite preview",
-    "build:rollup": "rollup -c",
-    "build:cleanup": "rm dist/index.js"
-  },
-  "devDependencies": {
-    "@rollup/plugin-terser": "^0.4.4",
-    "cssnano": "^6.1.2",
-    "postcss": "^8.4.39",
-    "rollup": "^3.29.4",
-    "sass": "^1.77.8",
-    "typescript": "^5.2.2",
-    "vite": "^5.3.4"
-  },
-  "keywords": [
-    "library"
-  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/hlop3z/xkin.git"
   },
+  "main": "./dist/index.min.js",
+  "scripts": {
+    "dev": "bun vite",
+    "build": "tsc && bun vite build && bun run build:xtyle",
+    "build:xtyle": "bun run xtyle_build.js",
+    "start": "bun run xtyle_component.js"
+  },
+  "devDependencies": {
+    "typescript": "5.7.3",
+    "vite": "^6.0.1"
+  },
   "bugs": {
     "url": "https://github.com/hlop3z/xkin/issues"
   },
-  "homepage": "https://github.com/hlop3z/xkin#readme",
+  "description": "A lightweight library for control, styling and themes.",
   "files": [
     "dist"
-  ]
+  ],
+  "homepage": "https://github.com/hlop3z/xkin#readme",
+  "keywords": [
+    "library"
+  ],
+  "license": "MIT",
+  "type": "module"
 }
