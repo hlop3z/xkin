@@ -1,6 +1,6 @@
 {
   "name": "xkin",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "author": "hlop3z",
   "repository": {
     "type": "git",
@@ -28,6 +28,6 @@
   "keywords": [
     "library"
   ],
-  "license": "MIT",
+  "license": "BSD 3-Clause",
   "type": "module"
 }

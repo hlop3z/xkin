@@ -1,10 +1,3 @@
-type Props =
-  | null
-  | boolean
-  | number
-  | string
-  | any[]
-  | { [key: string]: any }
-  | Record<string, any>;
+type Props = (attr: string, value: Record<string, any>) => any;
 
 export default Props;

@@ -1,3 +1,3 @@
-type Props = { [key: string]: any };
+type Props = (value: { [key: string]: any }) => any;
 
 export default Props;

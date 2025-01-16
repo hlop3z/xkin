@@ -9,10 +9,8 @@ type Props = {
     dark: any;
     disable: any;
     zebra: string | boolean;
-    colors: any;
-    current: any;
-    isDark: boolean;
-  }) => string;
+    darkMode: boolean;
+  }) => void;
   info: {
     base: any;
     dark: any;
