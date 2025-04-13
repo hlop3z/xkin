@@ -88,15 +88,14 @@ export function elementAdmin(refAdmin: HTMLElement): RefAdmin {
       this.current.style.display = "none";
     },
     show() {
-      this.current.style.display =
-        this.__dict__.display !== "none" ? this.__dict__.display : "";
+      this.current.style.display = this.__dict__.display !== "none" ? this.__dict__.display : "";
     },
     get theme() {
       // @ts-expect-error - Type checking suppressed intentionally
       return this.current.__xkin__;
     },
     css(props: any) {
-      // @ts-expect-error - Type checking suppressed intentionally
+      // @ts-ignore
       const args = props || {};
       const config = {
         theme: args,

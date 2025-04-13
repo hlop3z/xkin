@@ -107,7 +107,7 @@ const Color: any = {
   table: (name: any, color: any) => generateStyle("table", name, color),
 };
 
-// @ts-expect-error - Type checking suppressed intentionally
+// @ts-ignore
 let currentTheme = new ThemeCreator({});
 
 function createTheme(args: any): void {
