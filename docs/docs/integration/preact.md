@@ -7,22 +7,6 @@ Using **`xkin.component`** with Preact.
 ```jsx
 import { useState } from "preact/hooks";
 
-export default function Button(props) {
-  const [count, setCount] = useState(0);
-  const add = () => setCount((count) => count + 1);
-
-  /**
-   * @xkin
-   */
-  const css = Styled(props).theme(props.mode);
-
-  return (
-    <button type="button" onClick={add} class={css.class} style={css.style}>
-      count is {count}
-    </button>
-  );
-}
-
 /**
  * @xkin
  */
@@ -49,6 +33,22 @@ const Styled = xkin.component({
     },
   },
 });
+
+export default function Button(props) {
+  const [count, setCount] = useState(0);
+  const add = () => setCount((count) => count + 1);
+
+  /**
+   * @xkin
+   */
+  const css = Styled(props).theme(props.mode);
+
+  return (
+    <button type="button" onClick={add} class={css.class} style={css.style}>
+      count is {count}
+    </button>
+  );
+}
 ```
 
 ## Use Component
