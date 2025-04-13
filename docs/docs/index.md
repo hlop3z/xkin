@@ -18,7 +18,7 @@ XKin is a modern, super **lightweight** alternative to jQuery, designed specific
 | **`find`**      | Custom `querySelectorAll` implementation |
 | **`get`**       | Custom `querySelector` implementation    |
 | **`style`**     | Convert object to `CSS` styles           |
-| **`class`**     | Convert object to `CSS` classes          |
+| **`css`**       | Convert object to `CSS` classes          |
 | **`theme`**     | Build and inject `CSS` for themes        |
 | **`component`** | Style and manage complex components      |
 | **`blankForm`** | Generate a form object from a schema     |

@@ -3,15 +3,15 @@ requires = ["pdm-pep517>=1.0.0"]
 build-backend = "pdm.pep517.api"
 
 [project]
-name = ""
-version = ""
+name = "docs"
+version = "1.0.0"
 description = ""
 authors = [
-    {name = "hlop3z", email = "23062270+hlop3z@users.noreply.github.com"},
+    { name = "hlop3z", email = "23062270+hlop3z@users.noreply.github.com" },
 ]
 dependencies = ["mkdocs", "mkdocs-material"]
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
 [tool]
 [tool.pdm]
