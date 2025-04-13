@@ -25,5 +25,5 @@
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["node_modules/vite/client.d.ts", "globals.d.ts", "src"]
+  "include": ["node_modules/vite/client.d.ts", "globals.d.ts", "src/**/*"]
 }

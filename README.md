@@ -95,7 +95,7 @@ xkin.theme.toggle();
 
 ### Styling
 
-- `xkin.class(object)`: Converts an object to a CSS class string
+- `xkin.css(object)`: Converts an object to a CSS class string
 - `xkin.style(object)`: Converts an object to a CSS style string
 - `xkin.blank(form)`: Creates a new object by executing functions in the input object
 

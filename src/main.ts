@@ -1,4 +1,4 @@
-export { objectToClass as class } from "./lib/utils";
+export { objectToClass as css } from "./lib/utils";
 export { objectToStyle as style } from "./lib/utils";
 export { blankForm as blank } from "./lib/utils";
 
