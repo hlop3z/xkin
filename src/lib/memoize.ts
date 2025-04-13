@@ -1,13 +1,4 @@
 /**
- * Function signature for a memoizable function.
- * Represents any function with parameters and a return value that can be memoized.
- * 
- * @template T - Array of parameter types
- * @template R - Return type of the function
- */
-export type MemoizableFunction<T extends unknown[], R> = (...args: T) => R;
-
-/**
  * Default function to create a cache key from arguments.
  * Uses JSON.stringify to convert arguments to a string representation.
  * 
@@ -50,16 +41,16 @@ function defaultKeyFn(...args: unknown[]): string {
  *
  * @template T - Array of parameter types
  * @template R - Return type of the function
- * @param {MemoizableFunction<T, R>} fn - The function to memoize
+ * @param {any} fn - The function to memoize
  * @param {(...args: T) => string} [keyFn=defaultKeyFn] - Optional function to create cache keys
  * @param {number} [maxSize=100] - Optional maximum cache size
- * @returns {MemoizableFunction<T, R>} Memoized function with the same signature as the original
+ * @returns {any} Memoized function with the same signature as the original
  */
 export function memoize<T extends unknown[], R>(
-  fn: MemoizableFunction<T, R>,
+  fn: any,
   keyFn: (...args: T) => string = defaultKeyFn as any,
   maxSize = 100
-): MemoizableFunction<T, R> {
+): any {
   const cache = new Map<string, R>();
   const keys: string[] = [];
 
@@ -108,18 +99,18 @@ export function memoize<T extends unknown[], R>(
  * 
  * @template T - Array of parameter types
  * @template R - Return type of the function
- * @param {MemoizableFunction<T, R>} fn - The function to memoize
+ * @param {any} fn - The function to memoize
  * @param {(...args: T) => string} [keyFn=defaultKeyFn] - Optional function to create cache keys
- * @returns {MemoizableFunction<T, R>} Memoized function with the same signature as the original
+ * @returns {any} Memoized function with the same signature as the original
  */
 export function memoizeOne<T extends unknown[], R>(
-  fn: MemoizableFunction<T, R>,
+  fn: any,
   keyFn: (...args: T) => string = defaultKeyFn as any
-): MemoizableFunction<T, R> {
+): any {
   let lastKey: string | undefined;
   let lastResult: R | undefined;
 
-  return function (...args: T): R {
+  return function (...args: T): any {
     const key = keyFn(...args);
 
     if (key === lastKey) {
