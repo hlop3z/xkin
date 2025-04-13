@@ -13,8 +13,10 @@ nav:
   - Utils: utils.md
   - Integration:
       - Vue: integration/vue.md
+      - React: integration/react.md
       - Preact: integration/preact.md
       - Alpine: integration/alpine.md
+
 # Configurations
 extra_css:
   - css/extra.css

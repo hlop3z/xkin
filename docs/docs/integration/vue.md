@@ -1,215 +1,362 @@
-# Vue
+# Vue Integration
 
-Using **`xkin.component`** with Vue.
+XKin integrates seamlessly with Vue applications, providing powerful styling and theming capabilities for your components. This guide shows you how to incorporate XKin's component system into Vue using two different approaches.
 
----
+## Overview
 
-## Using Computed
+There are two main approaches to using XKin with Vue:
+1. **Computed Properties**: Use Vue's computed properties to generate XKin styles
+2. **Custom Directives**: Create Vue directives for easier component styling
 
----
+## Method 1: Using Computed Properties
 
-### Create Component
+This approach uses Vue's reactive computed properties to generate and update XKin styles whenever component props change.
 
-```html
+### Creating a Styled Component
+
+```vue
 <script setup>
-  import { computed } from "vue";
+import { computed } from "vue";
 
-  const props = defineProps(["size", "disabled", "height", "mode"]);
+const props = defineProps({
+  size: String,
+  disabled: Boolean,
+  height: String,
+  mode: String
+});
 
-  const css = computed(() => {
-    return xkin
-      .component({
-        base: {
-          class: "button",
+const count = ref(0);
+
+// Generate XKin styling as a computed property
+const css = computed(() => {
+  return xkin
+    .component({
+      base: {
+        class: "button",
+      },
+      setup: ({ size, disabled, height }) => ({
+        class: {
+          "is-small": size === "sm",
+          "is-large": size === "lg",
+          "is-disabled": disabled,
         },
-        setup: ({ size, disabled, height }) => ({
-          class: {
-            "is-small": size === "sm",
-            "is-large": size === "lg",
-            "is-disabled": disabled,
-          },
-          style: { height: height },
-        }),
-        theme: {
-          active: {
-            class: "color-bg-success",
-            style: "",
-          },
-          error: {
-            class: "color-bg-danger",
-            style: "",
-          },
+        style: {
+          height: height,
+          transition: "all 0.3s ease-in-out"
         },
-      })(props)
-      .theme(props.mode);
-  });
+      }),
+      theme: {
+        active: {
+          class: "color-bg-success color-tx-white",
+          style: "border: none;",
+        },
+        error: {
+          class: "color-bg-danger color-tx-white",
+          style: "border: none;",
+        },
+      },
+    })(props)
+    .theme(props.mode); // Apply the specified theme
+});
 </script>
 
 <template>
-  <button type="button" @click="count++" :class="css.class" :style="css.style">
-    count is {{ count }}
+  <button 
+    type="button" 
+    @click="count++" 
+    :class="css.class" 
+    :style="css.style"
+  >
+    Count is {{ count }}
   </button>
 </template>
 ```
 
-### Use Component
+### Using the Component
 
-```html
+```vue
 <script setup>
-  import CustomButton from "./components/CustomButton.vue";
+import { ref } from "vue";
+import CustomButton from "./components/CustomButton.vue";
 
-  import { ref } from "vue";
+// Reactive state for component props
+const disabled = ref(false);
+const mode = ref(null);
 
-  const disabled = ref(null);
-  const mode = ref(null);
+// Toggle button state every 2 seconds
+setInterval(() => {
+  disabled.value = !disabled.value;
+}, 2000);
 
-  setInterval(() => {
-    disabled.value = !disabled.value;
-  }, 2000);
-
-  setInterval(() => {
-    if (!mode.value) {
-      mode.value = "active";
-    } else {
-      mode.value = null;
-    }
-  }, 1000);
+// Toggle theme every second
+setInterval(() => {
+  mode.value = mode.value ? null : "active";
+}, 1000);
 </script>
 
 <template>
   <div>
-    <h1>Custom Button</h1>
-    <CustomButton size="sm" height="40px" :mode="mode" :disabled="disabled" />
+    <h1>Custom Button Example</h1>
+    <p>This button changes theme and state automatically</p>
+    <CustomButton 
+      size="sm" 
+      height="40px" 
+      :mode="mode" 
+      :disabled="disabled" 
+    />
   </div>
 </template>
 ```
 
----
+## Method 2: Using Custom Directives
 
-## Using Directives
+This approach creates a custom Vue directive that applies XKin styling more declaratively.
 
----
-
-### Create Directive
+### Creating a Theme Directive
 
 ```js
-const handleCSS = (el, props) => {
-  /**
-   * @xkin
-   */
-  const css = el.__css__(props).theme(props.mode);
+// theme-directive.js
+/**
+ * Applies XKin styling to an element
+ */
+const applyStyles = (el, props) => {
+  // Get XKin styling from the component
+  const css = el.__xkinComponent__(props).theme(props.mode);
+  
+  // Apply to the element
   el.className = css.class;
   el.setAttribute("style", css.style);
 };
 
-const themeDirective = {
+/**
+ * Vue directive to apply XKin styling
+ */
+export const themeDirective = {
+  // When directive is first bound to the element
   created(el, { value, arg }) {
     if (!arg) {
-      el.__css__ = value;
+      // Save the component generator function
+      el.__xkinComponent__ = value;
     } else if (arg === "props") {
-      handleCSS(el, value);
+      // Apply styles with the given props
+      applyStyles(el, value);
     }
   },
+  
+  // When bound element's component is updated
   updated(el, { value, arg }) {
     if (arg === "props") {
-      handleCSS(el, value);
+      // Update styles when props change
+      applyStyles(el, value);
     }
-  },
+  }
 };
 ```
 
-### Register
+### Registering the Directive
 
 ```js
+// main.js
 import { createApp } from "vue";
 import App from "./App.vue";
+import { themeDirective } from "./theme-directive";
 
 const app = createApp(App);
 
-// Register
+// Register the custom directive globally
 app.directive("theme", themeDirective);
 
 app.mount("#app");
 ```
 
-### Create Component
+### Creating a Component with the Directive
 
-```html
+```vue
 <script setup>
-  import { ref } from "vue";
+import { ref } from "vue";
 
-  const props = defineProps(["size", "disabled", "height", "mode"]);
+const props = defineProps({
+  size: String,
+  disabled: Boolean,
+  height: String,
+  mode: String
+});
 
-  const count = ref(0);
+const count = ref(0);
 
-  /**
-   * @xkin
-   */
-  const component = xkin.component({
-    base: {
-      class: "button",
+// Define the component styling
+const componentStyle = xkin.component({
+  base: {
+    class: "button",
+  },
+  setup: ({ size, disabled, height }) => ({
+    class: {
+      "is-small": size === "sm",
+      "is-large": size === "lg",
+      "is-disabled": disabled,
     },
-    setup: ({ size, disabled, height }) => ({
-      class: {
-        "is-small": size === "sm",
-        "is-large": size === "lg",
-        "is-disabled": disabled,
-      },
-      style: { height: height },
-    }),
-    theme: {
-      active: {
-        class: "color-bg-success",
-        style: "",
-      },
-      error: {
-        class: "color-bg-danger",
-        style: "",
-      },
+    style: {
+      height: height,
+      borderRadius: "4px",
+      padding: size === "sm" ? "4px 8px" : "8px 16px"
     },
-  });
+  }),
+  theme: {
+    active: {
+      class: "color-bg-success color-tx-white",
+      style: "border: none;",
+    },
+    error: {
+      class: "color-bg-danger color-tx-white",
+      style: "border: none;",
+    },
+  },
+});
 </script>
 
 <template>
   <button
     type="button"
     @click="count++"
-    v-theme="component"
-    v-theme:props="props"
+    v-theme="componentStyle"  <!-- Pass the component styling -->
+    v-theme:props="props"     <!-- Pass the props to apply -->
   >
-    count is {{ count }}
+    Count is {{ count }}
   </button>
 </template>
 ```
 
-### Use Component
+## Advanced Usage: Composition API Integration
 
-```html
+For more complex components, you can create composable functions that encapsulate XKin styling logic:
+
+```js
+// useXkinStyle.js
+import { computed } from "vue";
+
+/**
+ * Composable function for XKin styling
+ */
+export function useXkinStyle(styleConfig, props) {
+  // Create the component
+  const component = xkin.component(styleConfig);
+  
+  // Computed property that updates when props change
+  const styles = computed(() => {
+    return component(props).theme(props.mode);
+  });
+  
+  // Return styling and helper methods
+  return {
+    styles,
+    applyTheme: (themeName) => component(props).theme(themeName),
+    // Add any additional helper methods here
+  };
+}
+```
+
+### Using the Composable
+
+```vue
 <script setup>
-  import CustomButton from "./components/CustomButton.vue";
+import { ref } from "vue";
+import { useXkinStyle } from "./useXkinStyle";
 
-  import { ref } from "vue";
+const props = defineProps({
+  size: String,
+  disabled: Boolean,
+  mode: String
+});
 
-  const disabled = ref(null);
-  const mode = ref(null);
-
-  setInterval(() => {
-    disabled.value = !disabled.value;
-  }, 2000);
-
-  setInterval(() => {
-    if (!mode.value) {
-      mode.value = "active";
-    } else {
-      mode.value = null;
+// Button styling configuration
+const buttonConfig = {
+  base: {
+    class: "button",
+    style: "font-family: sans-serif;"
+  },
+  setup: ({ size, disabled }) => ({
+    class: {
+      "btn-sm": size === "sm",
+      "btn-lg": size === "lg",
+      "btn-disabled": disabled
+    },
+    style: {
+      opacity: disabled ? 0.6 : 1
     }
-  }, 1000);
+  }),
+  theme: {
+    primary: {
+      class: "color-bg-primary color-tx-white",
+      style: ""
+    },
+    secondary: {
+      class: "color-bg-secondary",
+      style: ""
+    }
+  }
+};
+
+// Use the composable
+const { styles } = useXkinStyle(buttonConfig, props);
+
+const count = ref(0);
 </script>
 
 <template>
-  <div>
-    <h1>Custom Button</h1>
-    <CustomButton size="sm" height="40px" :mode="mode" :disabled="disabled" />
-  </div>
+  <button 
+    type="button" 
+    @click="count++" 
+    :class="styles.class" 
+    :style="styles.style"
+  >
+    Count is {{ count }}
+  </button>
 </template>
+```
+
+## Performance Optimization
+
+For optimal performance in Vue applications, consider these best practices:
+
+1. Use `xkin.memoizeOne` within your component style configuration for complex calculations
+2. Avoid recreating component definitions on each render
+3. For lists, use unique keys and stable component references
+
+```js
+// Define component outside render cycle
+const buttonStyle = xkin.component({
+  // Component definition...
+  setup: xkin.memoizeOne(props => ({
+    // Complex prop calculations...
+  }))
+});
+
+// In your component
+const css = computed(() => buttonStyle(props).theme(props.mode));
+```
+
+## Integration with Vue's Transition System
+
+XKin works well with Vue's transition system:
+
+```vue
+<template>
+  <Transition name="fade">
+    <button v-if="visible" :class="css.class" :style="css.style">
+      Animated Button
+    </button>
+  </Transition>
+</template>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>
 ```
