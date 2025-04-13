@@ -2,16 +2,9 @@
 
 A lightweight TypeScript UI library for web applications. Xkin provides utilities for styling, component creation, DOM manipulation, and theme management.
 
-<p
-  align="center"
-  style="font-size: 2.5em; letter-spacing: -2px; font-family: Georgia, sans-serif;"
->
-  <span style="font-size: 2em;">Links</span>
-  <br /><br />
-  <a href="https://github.com/hlop3z/xkin" target="_blank"> Github </a>
-  <br /><br />
-  <a href="https://hlop3z.github.io/xkin/" target="_blank"> Docs </a>
-</p>
+<a href="https://github.com/hlop3z/xkin" target="_blank"> Github </a>
+<br /><br />
+<a href="https://hlop3z.github.io/xkin/" target="_blank"> Docs </a>
 
 ## Installation
 
