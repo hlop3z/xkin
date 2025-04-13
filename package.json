@@ -47,7 +47,8 @@
     "format": "prettier --write \"src/**/*.ts\"",
     "prepublishOnly": "npm run test && npm run lint:fix",
     "lint:fix": "eslint src/**/*.ts --fix --max-warnings=999",
-    "docs": "bunx typedoc src/main.ts --out docs_ts"
+    "docs": "bunx typedoc src/main.ts --out docs_ts",
+    "size": "gzip -c dist/index.iife.js | wc -c"
   },
   "devDependencies": {
     "@types/bun": "latest",
