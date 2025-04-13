@@ -1,0 +1,328 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Xkin Demo</title>
+    <style>
+      body {
+        font-family:
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          Oxygen,
+          Ubuntu,
+          Cantarell,
+          "Open Sans",
+          "Helvetica Neue",
+          sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
+      }
+
+      header {
+        margin-bottom: 30px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section {
+        margin-bottom: 40px;
+        padding: 20px;
+        border: 1px solid #e1e1e1;
+        border-radius: 8px;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      h2 {
+        font-size: 1.8rem;
+        margin-top: 0;
+      }
+
+      .button {
+        background-color: #1f2937; /* slate-800 */
+        color: #ffffff;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+      }
+
+      .button:hover {
+        background-color: #111827; /* slate-900 */
+      }
+
+      .button:active {
+        transform: scale(0.98);
+      }
+
+      .demo-area {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+        margin: 20px 0;
+      }
+
+      .code-example {
+        background-color: #f5f5f5;
+        padding: 15px;
+        border-radius: 4px;
+        overflow: auto;
+        font-family: monospace;
+      }
+
+      .control-box {
+        height: 100px;
+        margin-bottom: 20px;
+      }
+
+      .control-example {
+        width: 100px;
+        height: 100px;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Xkin Demo</h1>
+        <p>A lightweight TypeScript UI library for web applications.</p>
+      </header>
+
+      <div class="section">
+        <h2>DOM Control</h2>
+        <div class="demo-area">
+          <button class="button" id="hide-button">Hide Element</button>
+          <button class="button" id="show-button">Show Element</button>
+          <button class="button" id="toggle-button">Toggle Classes</button>
+        </div>
+        <div class="control-box">
+          <div id="target-element" class="control-example">Target</div>
+        </div>
+        <div class="code-example">
+          <pre>
+const target = xkin.control('#target-element');
+
+// Hide element
+document.querySelector('#hide-button').addEventListener('click', () => {
+  target.hide();
+});
+
+// Show element
+document.querySelector('#show-button').addEventListener('click', () => {
+  target.show();
+});
+
+// Toggle classes
+document.querySelector('#toggle-button').addEventListener('click', () => {
+  target.toggle('highlight');
+});
+        </pre
+          >
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Styled Components</h2>
+        <div class="demo-area">
+          <button id="default-button">Default Button</button>
+          <button id="primary-button">Primary Button</button>
+          <button id="secondary-button">Secondary Button</button>
+        </div>
+        <div class="code-example">
+          <pre>
+const button = xkin.component({
+  base: {
+    class: 'btn',
+    style: 'cursor: pointer; padding: 8px 16px; border-radius: 4px; border: none;'
+  },
+  theme: {
+    primary: {
+      style: 'background-color: #0d6efd; color: white;'
+    },
+    secondary: {
+      style: 'background-color: #6c757d; color: white;'
+    }
+  }
+});
+
+// Apply styles
+const defaultBtn = button({});
+const primaryBtn = button({}).theme('primary');
+const secondaryBtn = button({}).theme('secondary');
+        </pre
+          >
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Theme Management</h2>
+        <div class="demo-area">
+          <button class="theme-switcher button" data-theme="light">Toggle Theme</button>
+          <div
+            id="theme-example"
+            class="color-bg-base_color color-tx-base_text"
+            style="
+              width: 100%;
+              height: 150px;
+              margin-top: 10px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border: 2px solid #1f2937;
+            "
+          >
+            Theme Example
+          </div>
+        </div>
+        <div class="code-example">
+          <pre>
+// Create Theme
+xkin.theme.set({
+  darkMode: isDark,
+  zebra: true, // Enable zebra striping for tables
+  disable: [
+    //  Disable the generation specific color types if needed:
+    // "text", "background", "border", "table"
+  ],
+  base: {
+    // Basic colors for light mode
+    base_color: "#f8f9fa",
+    base_text: "#212529",
+  },
+  dark: {
+    // Basic colors for dark mode
+    base_text: "#f8f9fa",
+    base_color: "#212529",
+  },
+});
+
+// Toggle Theme
+xkin.theme.toggle();
+
+// Get Info
+console.log(xkin.theme.info);
+
+// Get Class as string
+console.log(xkin.theme.class("background", "base_color"));
+
+        </pre
+          >
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import * as xkin from "./src/main.ts";
+
+      // Setup styled components
+      const button = xkin.component({
+        base: {
+          style: "cursor: pointer; padding: 8px 16px; border-radius: 4px; border: none;",
+        },
+        theme: {
+          primary: {
+            style: "background-color: #0d6efd; color: white;",
+          },
+          secondary: {
+            style: "background-color: #6c757d; color: white;",
+          },
+        },
+      });
+
+      // Apply button styles
+      const defaultBtn = button({});
+      document.getElementById("default-button").setAttribute("style", defaultBtn.style);
+
+      const primaryBtn = button({}).theme("primary");
+      document.getElementById("primary-button").setAttribute("style", primaryBtn.style);
+
+      const secondaryBtn = button({}).theme("secondary");
+      document.getElementById("secondary-button").setAttribute("style", secondaryBtn.style);
+
+      // DOM Control example
+      const target = xkin.control("#target-element");
+
+      document.querySelector("#toggle-button").addEventListener("click", () => {
+        target.toggle("highlight");
+        if (target.contains("highlight")) {
+          target.current.style.backgroundColor = "#ffc107";
+        } else {
+          target.current.style.backgroundColor = "#f0f0f0";
+        }
+      });
+
+      document.querySelector("#hide-button").addEventListener("click", () => {
+        target.hide();
+      });
+
+      document.querySelector("#show-button").addEventListener("click", () => {
+        target.show();
+      });
+
+      // Theme management example
+      const themeExample = xkin.component({
+        base: {
+          style:
+            "transition: all 0.3s ease; width: 100%; height: 150px; display: flex; align-items: center; justify-content: center;",
+        },
+        theme: {
+          light: {
+            style: "background-color: #f8f9fa; color: #212529;",
+          },
+          dark: {
+            style: "background-color: #212529; color: #f8f9fa;",
+          },
+          contrast: {
+            style: "background-color: #000; color: #fff; font-weight: bold;",
+          },
+        },
+      });
+
+      const isDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      xkin.theme.set({
+        darkMode: isDark,
+        zebra: true, // Enable zebra striping for tables
+        disable: [
+          //  Disable the generation specific color types if needed:
+          // "text", "background", "border", "table"
+        ],
+        base: {
+          // Basic colors for light mode
+          base_color: "#f8f9fa",
+          base_text: "#212529",
+        },
+        dark: {
+          // Basic colors for dark mode
+          base_text: "#f8f9fa",
+          base_color: "#212529",
+        },
+      });
+
+      document.querySelectorAll(".theme-switcher").forEach((button) => {
+        button.addEventListener("click", () => {
+          const { theme } = button.dataset;
+          xkin.theme.toggle();
+        });
+      });
+    </script>
+  </body>
+</html>

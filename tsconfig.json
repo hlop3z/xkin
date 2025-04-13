@@ -1,28 +1,29 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
+    // Environment setup & latest features
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "target": "ESNext",
     "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
+    "moduleDetection": "force",
+    "jsx": "react-jsx",
+    "allowJs": true,
 
-    /* Bundler mode */
+    // Bundler mode
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
-    "isolatedModules": true,
-    "moduleDetection": "force",
+    "verbatimModuleSyntax": true,
     "noEmit": true,
 
-    // JSX
-    "jsx": "react",
-    "jsxFactory": "h",
-
-    /* Linting */
+    // Best practices
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedIndexedAccess": true,
+
+    // Some stricter flags (disabled by default)
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noPropertyAccessFromIndexSignature": false
   },
-  "include": ["types.d.ts", "src"]
+  "include": ["node_modules/vite/client.d.ts", "globals.d.ts", "src"]
 }

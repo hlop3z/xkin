@@ -1,33 +1,49 @@
 {
   "name": "xkin",
-  "version": "0.1.2",
-  "author": "hlop3z",
+  "version": "0.1.0",
+  "description": "A lightweight TypeScript UI library for web applications",
+  "module": "index.ts",
+  "type": "module",
+  "author": "",
+  "license": "BSD 3-Clause",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hlop3z/xkin.git"
+    "url": "https://github.com/your-username/xkin.git"
   },
-  "main": "./dist/index.min.js",
-  "scripts": {
-    "dev": "bun vite",
-    "build": "tsc && bun vite build && bun run build:xtyle",
-    "build:xtyle": "bun run xtyle_build.js",
-    "start": "bun run xtyle_component.js"
-  },
-  "devDependencies": {
-    "typescript": "5.7.3",
-    "vite": "^6.0.1"
-  },
-  "bugs": {
-    "url": "https://github.com/hlop3z/xkin/issues"
-  },
-  "description": "A lightweight library for control, styling and themes.",
+  "keywords": [
+    "ui",
+    "components",
+    "styling",
+    "web",
+    "typescript"
+  ],
   "files": [
     "dist"
   ],
-  "homepage": "https://github.com/hlop3z/xkin#readme",
-  "keywords": [
-    "library"
-  ],
-  "license": "BSD 3-Clause",
-  "type": "module"
+  "scripts": {
+    "dev": "bunx --bun vite --host",
+    "build": "tsc && bunx --bun vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepare": "husky install",
+    "lint:fix": "node scripts/fix-lint.js && eslint src/**/*.ts --fix --max-warnings=999"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.2.0",
+    "@typescript-eslint/parser": "^6.2.0",
+    "eslint": "^8.46.0",
+    "husky": "^8.0.3",
+    "jsdom": "^26.0.0",
+    "prettier": "^3.0.1",
+    "vite": "^6.2.0",
+    "vite-plugin-dts": "^4.5.3",
+    "vitest": "^0.34.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
 }
