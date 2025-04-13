@@ -13,7 +13,12 @@ export default defineConfig({
   plugins: [
     dts({
       insertTypesEntry: true, // creates `dist/index.d.ts`
-      rollupTypes: true, // ✅ Bundle all .d.ts into one
+      rollupTypes: true, // Bundle all .d.ts into one
+      bundledPackages: [], // Force bundling of all packages  
+      compilerOptions: {
+        preserveSymlinks: false,
+        skipLibCheck: true,
+      },
     }),
   ],
   build: {

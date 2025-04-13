@@ -2,6 +2,15 @@ import { objectToClass, objectToStyle } from "./utils";
 
 /**
  * Configuration interface for styled components.
+ * Defines the base styling, dynamic styling, attribute handling, and theme options.
+ * 
+ * @interface StyleComponentConfig
+ * @property {object} [base] - Base styling that's applied to all instances
+ * @property {string} [base.class] - Base CSS classes
+ * @property {string} [base.style] - Base inline styles
+ * @property {function} [setup] - Function to dynamically generate styling based on props
+ * @property {function} [attrs] - Function to generate additional attributes based on props
+ * @property {object} [theme] - Collection of named theme variations
  */
 export interface StyleComponentConfig {
   base?: {
@@ -15,6 +24,13 @@ export interface StyleComponentConfig {
 
 /**
  * Result of styling a component.
+ * Contains processed classes, styles, attributes, and a theme accessor function.
+ * 
+ * @interface StyleResult
+ * @property {string} class - Combined CSS classes
+ * @property {string} style - Combined inline styles
+ * @property {Record<string, any>} attrs - HTML attributes to apply
+ * @property {function} theme - Function to access themed variations
  */
 export interface StyleResult {
   class: string;
@@ -24,9 +40,35 @@ export interface StyleResult {
 }
 
 /**
- * Creates a styled component instance.
- * @param config - The configuration object
- * @returns A function that initializes the styled component with given properties
+ * Creates a styled component instance that can be initialized with properties.
+ * 
+ * @example
+ * ```ts
+ * const Button = StyledComponent({
+ *   base: {
+ *     class: 'btn',
+ *     style: 'cursor: pointer;'
+ *   },
+ *   setup: (props) => ({
+ *     class: props.primary ? 'btn-primary' : 'btn-secondary'
+ *   }),
+ *   theme: {
+ *     large: { class: 'btn-lg' },
+ *     small: { class: 'btn-sm' }
+ *   }
+ * });
+ * 
+ * // Use the component
+ * const btnStyle = Button({ primary: true });
+ * console.log(btnStyle.class); // 'btn btn-primary'
+ * 
+ * // Apply a theme
+ * const themedBtn = btnStyle.theme('large');
+ * console.log(themedBtn.class); // 'btn btn-primary btn-lg'
+ * ```
+ * 
+ * @param {StyleComponentConfig} config - The configuration object
+ * @returns {Function} A function that initializes the styled component with given properties
  */
 export function StyledComponent(config: StyleComponentConfig): (props?: any) => StyleResult {
   const component = new Style(config || {});
@@ -35,13 +77,19 @@ export function StyledComponent(config: StyleComponentConfig): (props?: any) => 
 
 /**
  * Class representing a styled component configuration.
+ * Handles the internal logic for applying styles, themes, and attributes.
  */
 export class Style {
+  /**
+   * The normalized configuration with all optional properties filled in with defaults
+   * @private
+   */
   private config: Required<StyleComponentConfig>;
 
   /**
-   * Creates a new Style instance
-   * @param config - The styling configuration
+   * Creates a new Style instance with the provided configuration
+   * 
+   * @param {StyleComponentConfig} config - The styling configuration
    */
   constructor(config: StyleComponentConfig = {}) {
     const blank = () => ({ class: "", style: "" });
@@ -58,9 +106,10 @@ export class Style {
   }
 
   /**
-   * Initializes the styled component with props
-   * @param props - Properties to apply to the component
-   * @returns The styled component result
+   * Initializes the styled component with the provided props
+   * 
+   * @param {any} props - Properties to apply to the component
+   * @returns {StyleResult} The complete styled component result
    */
   start(props: any = {}): StyleResult {
     const { base, attrs, setup } = this.config;
@@ -76,10 +125,11 @@ export class Style {
   }
 
   /**
-   * Applies a theme to the component
-   * @param name - The theme name to apply
-   * @param props - Properties to apply to the component
-   * @returns The themed component styles
+   * Applies a theme to the component by merging theme styles with base styles
+   * 
+   * @param {string} [name] - The theme name to apply
+   * @param {any} [props={}] - Properties to apply to the component
+   * @returns {Partial<{ class: string; style: string }>} The themed component styles
    */
   theme(name?: string, props: any = {}): Partial<{ class: string; style: string }> {
     const { theme, base, setup } = this.config;
