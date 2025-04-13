@@ -10,15 +10,18 @@ XKin is a modern, super **lightweight** alternative to jQuery, designed specific
 
 ## Features
 
-| Name            | Description                              |
-| --------------- | ---------------------------------------- |
-| **`control`**   | Control and manage existing elements     |
-| **`gui`**       | Initialize and configure the layout      |
-| **`$gui`**      | Manage and control the layout            |
-| **`find`**      | Custom `querySelectorAll` implementation |
-| **`get`**       | Custom `querySelector` implementation    |
-| **`style`**     | Convert object to `CSS` styles           |
-| **`css`**       | Convert object to `CSS` classes          |
-| **`theme`**     | Build and inject `CSS` for themes        |
-| **`component`** | Style and manage complex components      |
-| **`blankForm`** | Generate a form object from a schema     |
+| Name             | Description                                                    |
+| ---------------- | -------------------------------------------------------------- |
+| **`$gui`**       | Manage and control the layout                                  |
+| **`css`**        | Convert object to `CSS` classes                                |
+| **`style`**      | Convert object to `CSS` styles                                 |
+| **`theme`**      | Build and inject `CSS` for themes                              |
+| **`blank`**      | Generate a form object from a schema                           |
+| **`component`**  | Style and manage complex components                            |
+| **`control`**    | Control and manage existing elements                           |
+| **`find`**       | Custom `querySelectorAll` implementation                       |
+| **`get`**        | Custom `querySelector` implementation                          |
+| **`gui`**        | Initialize and configure the layout                            |
+| **`layout`**     | Creates a web component-based layout with configurable regions |
+| **`memoize`**    | Memoized version of a function that caches its results         |
+| **`memoizeOne`** | Memoized function that only keeps the most recent result       |

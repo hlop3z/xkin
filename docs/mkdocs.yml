@@ -6,6 +6,7 @@ copyright: Copyright © Hlop3z
 nav:
   - Introduction: index.md
   - Control: control.md
+  - Layout: layout.md
   - GUI: gui.md
   - Theme: theme.md
   - Component: component.md

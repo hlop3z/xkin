@@ -12,7 +12,21 @@ export default function Layout({
   zFooter,
   zLeft,
   zRight,
-}: any) {
+}: {
+  name?: string;
+  breakPoint?: number;
+  transitionDuration?: string;
+  sizeHeader?: string;
+  sizeFooter?: string;
+  sizeLeft?: string;
+  sizeRight?: string;
+  sizeLeftMini?: string;
+  sizeRightMini?: string;
+  zHeader?: number;
+  zFooter?: number;
+  zLeft?: number;
+  zRight?: number;
+}) {
   const value = {
     name: name || "x-layout",
     breakPoint: breakPoint || 1024,
