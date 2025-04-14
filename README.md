@@ -6,7 +6,7 @@
    <br/>
     Provides utilities for styling, component creation, DOM manipulation and theme management.
    </p>
-   <p><code>9kB</code> minified | <code>3kb</code> gzipped</p>
+   <p><code>11kB</code> minified | <code>4kb</code> gzipped</p>
 
 [![License: BSD 3-Clause](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 [![npm version](https://img.shields.io/npm/v/xkin.svg)](https://www.npmjs.com/package/xkin)
@@ -215,15 +215,19 @@ layout.toggle("left-mini", false); // Force close left-mini sidebar
 ```js
 // Swipe detection
 const sidebar = document.querySelector(".sidebar");
-const cleanup = xkin.swipe(sidebar, (direction) => {
-  if (direction === "left") {
-    console.log("Swiped left - close sidebar");
-    sidebar.classList.remove("open");
-  } else if (direction === "right") {
-    console.log("Swiped right - open sidebar");
-    sidebar.classList.add("open");
-  }
-}, 75); // Custom threshold (default is 50px)
+const cleanup = xkin.swipe(
+  sidebar,
+  (direction) => {
+    if (direction === "left") {
+      console.log("Swiped left - close sidebar");
+      sidebar.classList.remove("open");
+    } else if (direction === "right") {
+      console.log("Swiped right - open sidebar");
+      sidebar.classList.add("open");
+    }
+  },
+  75
+); // Custom threshold (default is 50px)
 
 // Click outside detection
 const dropdown = document.querySelector(".dropdown");

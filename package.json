@@ -1,6 +1,6 @@
 {
   "name": "xkin",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A lightweight TypeScript UI library for web applications",
   "type": "module",
   "main": "dist/index.iife.js",
