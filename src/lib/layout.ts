@@ -1,83 +1,54 @@
-export default function Layout({
-  name,
-  breakPoint,
-  transitionDuration,
-  sizeHeader,
-  sizeFooter,
-  sizeLeft,
-  sizeRight,
-  sizeLeftMini,
-  sizeRightMini,
-  zHeader,
-  zFooter,
-  zLeft,
-  zRight,
-}: {
-  name?: string;
-  breakPoint?: number;
-  transitionDuration?: string;
-  sizeHeader?: string;
-  sizeFooter?: string;
-  sizeLeft?: string;
-  sizeRight?: string;
-  sizeLeftMini?: string;
-  sizeRightMini?: string;
-  zHeader?: number;
-  zFooter?: number;
-  zLeft?: number;
-  zRight?: number;
-}) {
-  const value = {
-    name: name || "x-layout",
-    breakPoint: breakPoint || 1024,
-    transition: transitionDuration || "0.3s",
-    sizeHeader: sizeHeader || "40px",
-    sizeFooter: sizeFooter || "40px",
-    sizeLeft: sizeLeft || "185px",
-    sizeRight: sizeRight || "185px",
-    sizeLeftMini: sizeLeftMini || "60px",
-    sizeRightMini: sizeRightMini || "60px",
-    zHeader: zHeader || "100",
-    zFooter: zFooter || "100",
-    zLeft: zLeft || "102",
-    zRight: zRight || "102",
-  };
+import { swipe } from "./directives";
 
-  class XLayout extends HTMLElement {
-    constructor() {
-      super();
-      const shadow = this.attachShadow({ mode: "open" });
+export default function layout(options: any) {
+  const {
+    name = "x-layout",
+    breakPoint = 1024,
+    transitionDuration = "0.3s",
+    sizeHeader = "40px",
+    sizeFooter = "40px",
+    sizeLeft = "185px",
+    sizeRight = "185px",
+    sizeLeftMini = "60px",
+    sizeRightMini = "60px",
+    zHeader = 100,
+    zFooter = 100,
+    zLeft = 102,
+    zRight = 102,
+  } = options;
 
-      shadow.innerHTML = `
+  const STORAGE_KEY = "x-layout-state";
+
+  const style = `
 <style>
   :host {
-    --app-header: ${value.sizeHeader};
-    --app-footer: ${value.sizeFooter};
-    --app-left: ${value.sizeLeft};
-    --app-right: ${value.sizeRight};
-    --app-left-mini: ${value.sizeLeftMini};
-    --app-right-mini: ${value.sizeRightMini};
+    --app-header: ${sizeHeader};
+    --app-footer: ${sizeFooter};
+    --app-left: ${sizeLeft};
+    --app-right: ${sizeRight};
+    --app-left-mini: ${sizeLeftMini};
+    --app-right-mini: ${sizeRightMini};
 
-    --app-header-layer: ${value.zHeader};
-    --app-footer-layer: ${value.zFooter};
-    --app-left-layer: ${value.zLeft};
-    --app-right-layer: ${value.zRight};
+    --app-header-layer: ${zHeader};
+    --app-footer-layer: ${zFooter};
+    --app-left-layer: ${zLeft};
+    --app-right-layer: ${zRight};
 
     display: block;
   }
 
-  @media (max-width: ${value.breakPoint}px) {
+  @media (max-width: ${breakPoint}px) {
     ::slotted([slot="main"]) {
       left: 0 !important;
       right: 0 !important;
     }
   }
 
-  @media (min-width: ${value.breakPoint}px) {
+  @media (min-width: ${breakPoint}px) {
     ::slotted([slot="left"]),
     ::slotted([slot="left-mini"]),
     ::slotted([slot="right"]),
-    ::slotted([slot="right-mini"]) {      
+    ::slotted([slot="right-mini"]) {
       top: calc(var(--app-header)) !important;
       bottom: calc(var(--app-footer)) !important;
     }
@@ -101,20 +72,17 @@ export default function Layout({
     z-index: var(--app-footer-layer);
   }
 
-  /* Sidebar slots */
   ::slotted([slot="left"]),
   ::slotted([slot="left-mini"]),
   ::slotted([slot="right"]),
   ::slotted([slot="right-mini"]) {
-    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     will-change: transform;
-    -webkit-transition-duration: ${value.transition};
-    transition-duration: ${value.transition};
-    -webkit-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: ${transitionDuration};
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    -webkit-transition-property: -webkit-transform;
     transition-property: transform;
+    touch-action: pan-x pan-y;
+    pointer-events: auto;
   }
 
   ::slotted([slot="left"]),
@@ -123,9 +91,8 @@ export default function Layout({
     top: 0;
     bottom: 0;
     z-index: var(--app-left-layer);
-    -webkit-transform: translateX(-100vw);
-    -ms-transform: translateX(-100vw);
     transform: translateX(-100vw);
+    left: 0;
   }
 
   ::slotted([slot="right"]),
@@ -134,30 +101,14 @@ export default function Layout({
     top: 0;
     bottom: 0;
     z-index: var(--app-right-layer);
-    -webkit-transform: translateX(100vw);
-    -ms-transform: translateX(100vw);
     transform: translateX(100vw);
-  }
-
-  ::slotted([slot="left"]) {
-    left: 0;
-    width: var(--app-left);
-  }
-
-  ::slotted([slot="left-mini"]) {
-    left: 0;
-    width: var(--app-left-mini);
-  }
-
-  ::slotted([slot="right"]) {
     right: 0;
-    width: var(--app-right);
   }
 
-  ::slotted([slot="right-mini"]) {
-    right: 0;
-    width: var(--app-right-mini);
-  }
+  ::slotted([slot="left"]) { width: var(--app-left); }
+  ::slotted([slot="left-mini"]) { width: var(--app-left-mini); }
+  ::slotted([slot="right"]) { width: var(--app-right); }
+  ::slotted([slot="right-mini"]) { width: var(--app-right-mini); }
 
   ::slotted([slot="main"]) {
     position: fixed;
@@ -165,26 +116,19 @@ export default function Layout({
     transition: all 0.1s ease;
   }
 
-  ::slotted(.clip-left) {
-    left: calc(var(--app-left));
-  }
-  ::slotted(.clip-right) {
-    right: calc(var(--app-right));
-  }
-  ::slotted(.clip-top) {
-    top: calc(var(--app-header));
-  }
-  ::slotted(.clip-bottom) {
-    bottom: calc(var(--app-footer));
-  }
+  ::slotted(.clip-left) { left: calc(var(--app-left)); }
+  ::slotted(.clip-right) { right: calc(var(--app-right)); }
+  ::slotted(.clip-top) { top: calc(var(--app-header)); }
+  ::slotted(.clip-bottom) { bottom: calc(var(--app-footer)); }
 
   ::slotted(.open-sidebar) {
-    -webkit-transform: translateX(0) !important;
-    -ms-transform: translateX(0) !important;
     transform: translateX(0) !important;
   }
 </style>
+`;
 
+  const template = `
+${style}
 <slot name="header"></slot>
 <slot name="left"></slot>
 <slot name="left-mini"></slot>
@@ -192,9 +136,99 @@ export default function Layout({
 <slot name="right-mini"></slot>
 <slot name="main"></slot>
 <slot name="footer"></slot>
-      `;
+`;
+
+  class XLayout extends HTMLElement {
+    constructor() {
+      super();
+      const useShadow = !this.hasAttribute("no-shadow");
+      const root = useShadow ? this.attachShadow({ mode: "open" }) : this;
+      root.innerHTML = template;
+    }
+
+    connectedCallback() {
+      const state = this.loadState();
+
+      // Handle toggle for sides
+      ["left", "left-mini", "right", "right-mini"].forEach((key: any) => {
+        if (state[key]) this.toggle(key, true);
+
+        const slot = (this.shadowRoot || this).querySelector(
+          `slot[name="${key}"]`
+        ) as HTMLSlotElement;
+
+        if (!slot) return;
+
+        const bindSwipe = () => {
+          const assigned = slot.assignedElements();
+          if (!assigned.length) return;
+
+          const el = assigned[0] as HTMLElement;
+          if (!el) return;
+
+          bindSwipeToElement(el, (direction) => {
+            const isLeft = key.startsWith("left");
+            const isRight = key.startsWith("right");
+
+            const shouldClose =
+              (isLeft && direction === "left") || (isRight && direction === "right");
+
+            if (shouldClose && el.classList.contains("open-sidebar")) {
+              this.toggle(key as any, false);
+            }
+          });
+        };
+
+        // Bind swipe on slot change and initial render
+        requestAnimationFrame(bindSwipe);
+        slot.addEventListener("slotchange", () => requestAnimationFrame(bindSwipe));
+      });
+    }
+
+    toggle(side: "left" | "right" | "left-mini" | "right-mini", force?: boolean) {
+      const slot = (this.shadowRoot || this).querySelector(
+        `slot[name="${side}"]`
+      ) as HTMLSlotElement;
+      const el = slot?.assignedElements()[0] as HTMLElement;
+      if (!el) return;
+
+      el.classList.toggle("open-sidebar", force ?? !el.classList.contains("open-sidebar"));
+      this.saveState(side, el.classList.contains("open-sidebar"));
+    }
+
+    saveState(side: string, open: boolean) {
+      const existing = this.loadState();
+      existing[side] = open;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(existing));
+    }
+
+    loadState(): Record<string, boolean> {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+      } catch {
+        return {};
+      }
     }
   }
 
-  customElements.define(value.name, XLayout);
+  if (!customElements.get(name)) {
+    customElements.define(name, XLayout);
+  }
+
+  return XLayout;
+}
+
+function bindSwipeToElement(
+  el: HTMLElement,
+  callback: (direction: "left" | "right" | "up" | "down") => void
+) {
+  // Prevent rebinding swipe event if already bound
+  if (el.hasAttribute("data-swipe-bound")) return;
+
+  el.setAttribute("data-swipe-bound", "true");
+
+  // Use swipe utility function to listen for swipe gestures
+  swipe(el, (direction) => {
+    callback(direction);
+  });
 }

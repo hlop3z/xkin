@@ -53,9 +53,13 @@ export { memoize, memoizeOne } from "./lib/memoize";
 export { default as theme } from "./lib/theme";
 
 /**
+ * Directive utilities for handling custom events.
+ * @see "./lib/directives" for implementation details
+ */
+export { hover, clickOutside, swipe } from "./lib/directives";
+
+/**
  * Layout utilities for component positioning and structure
  * @see "./lib/layout" for implementation details
  */
 export { default as layout } from "./lib/layout";
-
-

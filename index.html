@@ -14,18 +14,20 @@
     </style>
   </head>
   <body>
-    <x-layout>
+    <x-layout id="layout">
       <header slot="header" style="background: green">Header</header>
 
       <aside slot="left-mini" class="clip-top open-sidebar" style="background: blue">
         Mini Left
       </aside>
-      <aside slot="left" id="app-left" style="background: red; text-align: right">Full Left</aside>
+      <aside slot="left" class="open-sidebar" style="background: red; text-align: right">
+        Full Left
+      </aside>
 
       <aside slot="right-mini" class="clip-bottom open-sidebar" style="background: blue">
         Mini Right
       </aside>
-      <aside slot="right" id="app-right" style="background: red">Full Right</aside>
+      <aside slot="right" class="open-sidebar" style="background: red">Full Right</aside>
 
       <main
         slot="main"
@@ -48,13 +50,17 @@
         sizeHeader: "60px",
       });
 
-      const appLeft = xkin.control("#app-left");
+      const appLeft = document.getElementById("app-left");
       const appRight = xkin.control("#app-right");
 
-      setInterval(() => {
-        appLeft.toggle("open-sidebar");
-        appRight.toggle("open-sidebar");
-      }, 2000);
+      // By Selecting the custom-element you can use internal methods.
+      function toggleSides() {
+        document.getElementById("layout")?.toggle("left");
+        document.getElementById("layout")?.toggle("right");
+      }
+
+      // toggleSides();
+      // setInterval(toggleSides, 2000);
     </script>
   </body>
 </html>
