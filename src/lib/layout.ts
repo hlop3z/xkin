@@ -66,6 +66,23 @@ export default function Layout({
     display: block;
   }
 
+  @media (max-width: ${value.breakPoint}px) {
+    ::slotted([slot="main"]) {
+      left: 0 !important;
+      right: 0 !important;
+    }
+  }
+
+  @media (min-width: ${value.breakPoint}px) {
+    ::slotted([slot="left"]),
+    ::slotted([slot="left-mini"]),
+    ::slotted([slot="right"]),
+    ::slotted([slot="right-mini"]) {      
+      top: calc(var(--app-header)) !important;
+      bottom: calc(var(--app-footer)) !important;
+    }
+  }
+
   ::slotted([slot="header"]) {
     position: fixed;
     top: 0;
@@ -146,13 +163,6 @@ export default function Layout({
     position: fixed;
     overflow: auto;
     transition: all 0.1s ease;
-  }
-
-  @media (max-width: ${value.breakPoint}px) {
-    ::slotted([slot="main"]) {
-      left: 0 !important;
-      right: 0 !important;
-    }
   }
 
   ::slotted(.clip-left) {
