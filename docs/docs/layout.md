@@ -49,10 +49,10 @@ xkin.layout({
   sizeRightMini: "60px",
 
   // Z-index values for proper layering
-  zHeader: "100",
-  zFooter: "100",
-  zLeft: "102",
-  zRight: "102",
+  zHeader: 100,
+  zFooter: 100,
+  zLeft: 102,
+  zRight: 102,
 });
 ```
 
@@ -329,7 +329,7 @@ Here's a complete example of a responsive layout with dynamic sidebar controls:
       // Toggle sidebar on button click (alternative to direct toggle method)
       document.getElementById("toggle-sidebar").addEventListener("click", () => {
         const layout = document.querySelector("app-layout");
-        
+
         if (window.innerWidth <= 768) {
           // On mobile, toggle mini sidebar
           layout.toggle("left-mini");
