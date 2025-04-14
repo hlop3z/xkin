@@ -90,6 +90,14 @@ xkin.theme.set({
 
 // Toggle dark mode
 xkin.theme.toggle();
+
+// Use directives for interactive behavior
+const element = document.querySelector(".sidebar");
+xkin.swipe(element, (direction) => {
+  if (direction === "left") {
+    // Close sidebar
+  }
+});
 ```
 
 ## Core Features
@@ -98,7 +106,8 @@ xkin.theme.toggle();
 - **Components**: Create reusable UI components with theme support
 - **DOM Manipulation**: Simplified DOM element selection and manipulation
 - **Theme Management**: Apply color themes with support for dark mode
-- **Layout System**: Web component-based layout with configurable regions
+- **Layout System**: Web component-based layout with configurable regions and touch gestures
+- **Directives**: Utilities for handling touch gestures, click outside, and hover events
 - **Performance Optimization**: Function memoization utilities to prevent redundant calculations
 
 ## API Reference
@@ -130,6 +139,9 @@ xkin.theme.toggle();
   - Supports header, footer, left sidebar, right sidebar, and main content areas
   - Configurable sizes and breakpoints for responsive behavior
   - Automatic z-index management for proper layering
+  - Touch gesture support for swiping sidebars open/closed
+  - State persistence across page reloads
+  - Option to disable shadow DOM with the `no-shadow` attribute
 
 ### Theme Management
 
@@ -137,6 +149,12 @@ xkin.theme.toggle();
 - `xkin.theme.toggle(value?)`: Toggles between light and dark mode
 - `xkin.theme.class(type, name)`: Gets CSS class names for different color types
 - `xkin.theme.info`: Returns the current theme object with color information
+
+### Directives
+
+- `xkin.swipe(element, callback, threshold?)`: Detects swipe gestures on an element
+- `xkin.clickOutside(element, callback)`: Detects clicks outside of an element
+- `xkin.hover(element, callback)`: Handles hover enter/leave events on an element
 
 ### Performance Optimization
 
@@ -165,6 +183,7 @@ xkin.layout({
 HTML Usage:
 
 ```html
+<!-- With shadow DOM (default) -->
 <app-layout>
   <header slot="header">Header Content</header>
   <nav slot="left">Left Sidebar</nav>
@@ -172,6 +191,56 @@ HTML Usage:
   <main slot="main" class="clip-top clip-bottom clip-left clip-right">Main Content</main>
   <footer slot="footer">Footer Content</footer>
 </app-layout>
+
+<!-- Without shadow DOM -->
+<app-layout no-shadow>
+  <!-- Same content structure -->
+</app-layout>
+```
+
+JavaScript control:
+
+```js
+// Get layout component reference
+const layout = document.querySelector("app-layout");
+
+// Programmatically toggle sidebars
+layout.toggle("left"); // Toggle left sidebar
+layout.toggle("right", true); // Force open right sidebar
+layout.toggle("left-mini", false); // Force close left-mini sidebar
+```
+
+### Directive Usage
+
+```js
+// Swipe detection
+const sidebar = document.querySelector(".sidebar");
+const cleanup = xkin.swipe(sidebar, (direction) => {
+  if (direction === "left") {
+    console.log("Swiped left - close sidebar");
+    sidebar.classList.remove("open");
+  } else if (direction === "right") {
+    console.log("Swiped right - open sidebar");
+    sidebar.classList.add("open");
+  }
+}, 75); // Custom threshold (default is 50px)
+
+// Click outside detection
+const dropdown = document.querySelector(".dropdown");
+const dropdownCleanup = xkin.clickOutside(dropdown, () => {
+  dropdown.classList.remove("open");
+});
+
+// Hover handling
+const button = document.querySelector(".hover-button");
+const hoverCleanup = xkin.hover(button, (isHovering) => {
+  button.classList.toggle("hovered", isHovering);
+});
+
+// Cleanup when no longer needed
+cleanup();
+dropdownCleanup();
+hoverCleanup();
 ```
 
 ### Theme Management
@@ -240,6 +309,15 @@ const getLatestTheme = xkin.memoizeOne((theme) => {
   return { ...theme, processed: true };
 });
 ```
+
+## Integration with Frameworks
+
+Xkin works well with popular frameworks and libraries:
+
+- [React Integration](https://hlop3z.github.io/xkin/integration/react)
+- [Vue Integration](https://hlop3z.github.io/xkin/integration/vue)
+- [Preact Integration](https://hlop3z.github.io/xkin/integration/preact)
+- [Alpine.js Integration](https://hlop3z.github.io/xkin/integration/alpine)
 
 ## Development
 
