@@ -1,66 +1,139 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Xkin Demo</title>
-    <style>
-      body,
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-    </style>
-  </head>
-  <body>
-    <x-layout id="layout">
-      <header slot="header" style="background: green">Header</header>
 
-      <aside slot="left-mini" class="clip-top open-sidebar" style="background: blue">
-        Mini Left
-      </aside>
-      <aside slot="left" class="open-sidebar" style="background: red; text-align: right">
-        Full Left
-      </aside>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xkin Demo</title>
+  <style>
+    body,
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-      <aside slot="right-mini" class="clip-bottom open-sidebar" style="background: blue">
-        Mini Right
-      </aside>
-      <aside slot="right" class="open-sidebar" style="background: red">Full Right</aside>
+    a {
+      margin: 0px 6px;
+    }
 
-      <main
-        slot="main"
-        class="clip-left clip-right clip-top clip-bottom"
-        style="border: 2px solid black"
-      >
-        Main Content
-      </main>
+    button {
+      padding: 4px 16px;
+    }
+  </style>
+</head>
 
-      <footer slot="footer" style="background: green">Footer</footer>
-    </x-layout>
+<body>
+  <x-layout id="layout">
+    <header slot="header" style="background: green">Header</header>
 
-    <script type="module">
-      import * as xkin from "./src/main.ts";
+    <aside slot="left-mini" class="clip-top open-sidebar" style="background: blue">
+      Mini Left
+    </aside>
+    <aside slot="left" class="open-sidebar" style="background: red; text-align: right">
+      Full Left
+    </aside>
 
-      xkin.layout({
-        name: "x-layout",
-        breakPoint: 1024,
-        transitionDuration: "0.3s",
-        sizeHeader: "60px",
-      });
+    <aside slot="right-mini" class="clip-bottom open-sidebar" style="background: blue">
+      Mini Right
+    </aside>
+    <aside slot="right" class="open-sidebar" style="background: red">Full Right</aside>
 
-      const appLeft = document.getElementById("app-left");
-      const appRight = xkin.control("#app-right");
+    <main slot="main" class="clip-left clip-right clip-top clip-bottom"
+      style="border: 2px solid black; text-align: center;">
+      Main Content
+      <my-component name="my-box" message="Hola Mundo"></my-component>
 
-      // By Selecting the custom-element you can use internal methods.
-      function toggleSides() {
-        document.getElementById("layout")?.toggle("left");
-        document.getElementById("layout")?.toggle("right");
-      }
+      <br />
+      <nav>
+        <a href="/" data-link>Home</a>
+        <a href="/?q=1" data-link>(Q) Home</a>
+        <a href="docs/" data-link>Docs</a>
+        <a href="docs/more" data-link>Docs...A</a>
+        <a href="docs/more/even-more/with-extras" data-link>Docs...B</a>
+        <a href="dashboard" data-link>Dashboard (Protected)</a>
+      </nav>
+      <br />
+      <div id="view"></div>
 
-      // toggleSides();
-      // setInterval(toggleSides, 2000);
-    </script>
-  </body>
+    </main>
+
+    <footer slot="footer" style="background: green">Footer</footer>
+  </x-layout>
+
+  <script type="module">
+    import * as xkin from "./src/main.ts";
+
+    // Testing
+    import "./test_live/test_router.ts";
+
+    xkin.layout({
+      name: "x-layout",
+      breakPoint: 1024,
+      transitionDuration: "0.3s",
+      sizeHeader: "60px",
+    });
+
+    const appLeft = document.getElementById("app-left");
+    const appRight = xkin.control("#app-right");
+
+    // By Selecting the custom-element you can use internal methods.
+    function toggleSides() {
+      document.getElementById("layout")?.toggle("left");
+      document.getElementById("layout")?.toggle("right");
+    }
+
+    // toggleSides();
+    // setInterval(toggleSides, 2000);
+
+
+    xkin.element("my-component", {
+      html: ({ name, message }) => `<div class="${name}">${message}</div>`,
+      style: ({ name }) => `.${name} { color: red; }`,
+      props: {
+        name: "myComponent",
+        message: () => "Hello!",
+        getDataFromServer: async () => "Loaded!",
+      },
+      data: {
+        time: () => Date.now(),
+      },
+      watch: {
+        message({ self, last, value }) {
+          console.log("Message changed:", last, "→", value);
+          console.log(self.data);
+        },
+      },
+      methods: {
+        reverseMessage({ self, message }) {
+          self.update({
+            message: message.split("").reverse().join(""),
+          });
+          console.log(self);
+        },
+      },
+      mounted() {
+        console.log("Component connected to the DOM");
+      },
+      unmounted() {
+        console.log("Component disconnected from the DOM");
+      },
+    });
+
+    function testElement() {
+      const el = document.querySelector('my-component');
+      setTimeout(() => {
+        el.update({ 'message': 'New message' }); // triggers re-render + watcher
+      }, 1000);
+
+      setTimeout(() => {
+        el.reverseMessage(); // calls bound method
+      }, 3000);
+    }
+    // testElement()
+
+
+  </script>
+</body>
+
 </html>

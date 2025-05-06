@@ -1,271 +1,51 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Xkin Demo</title>
-    <style>
-      body {
-        font-family:
-          system-ui,
-          -apple-system,
-          BlinkMacSystemFont,
-          "Segoe UI",
-          Roboto,
-          Oxygen,
-          Ubuntu,
-          Cantarell,
-          "Open Sans",
-          "Helvetica Neue",
-          sans-serif;
-        margin: 0;
-        padding: 20px;
-        line-height: 1.6;
-      }
 
-      header {
-        margin-bottom: 30px;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xkin Demo</title>
 
-      .container {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
+</head>
+<script src="./dist/index.iife.js?q=1"></script>
+<x-layout>
+  <header slot="header" style="background: green">Header</header>
 
-      .section {
-        margin-bottom: 40px;
-        padding: 20px;
-        border: 1px solid #e1e1e1;
-        border-radius: 8px;
-      }
+  <aside slot="left-mini" class="clip-top open-sidebar" style="background: blue">
+    Mini Left
+  </aside>
+  <aside slot="left" id="app-left" style="background: red; text-align: right">Full Left</aside>
 
-      h1 {
-        font-size: 2.5rem;
-        margin-bottom: 10px;
-      }
+  <aside slot="right-mini" class="clip-bottom open-sidebar" style="background: blue">
+    Mini Right
+  </aside>
+  <aside slot="right" id="app-right" style="background: red">Full Right</aside>
 
-      h2 {
-        font-size: 1.8rem;
-        margin-top: 0;
-      }
+  <main slot="main" class="clip-left clip-right clip-top clip-bottom" style="border: 2px solid black">
+    Main Content
+  </main>
 
-      .demo-area {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 15px;
-        margin: 20px 0;
-      }
+  <footer slot="footer" style="background: green">Footer</footer>
+</x-layout>
 
-      .code-example {
-        background-color: #f5f5f5;
-        padding: 15px;
-        border-radius: 4px;
-        overflow: auto;
-        font-family: monospace;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <header>
-        <h1>Xkin Demo</h1>
-        <p>A lightweight TypeScript UI library for web applications.</p>
-      </header>
+<script>
 
-      <div class="section">
-        <h2>Styled Components</h2>
-        <div class="demo-area">
-          <button id="default-button">Default Button</button>
-          <button id="primary-button">Primary Button</button>
-          <button id="secondary-button">Secondary Button</button>
-        </div>
-        <div class="code-example">
-          <pre>
-const button = xkin.component({
-  base: {
-    class: 'btn',
-    style: 'cursor: pointer; padding: 8px 16px; border-radius: 4px; border: none;'
-  },
-  theme: {
-    primary: {
-      style: 'background-color: #0d6efd; color: white;'
-    },
-    secondary: {
-      style: 'background-color: #6c757d; color: white;'
-    }
-  }
-});
+  xkin.layout({
+    name: "x-layout",
+    breakPoint: 1024,
+    transitionDuration: "0.3s",
+    sizeHeader: "60px",
+  });
 
-// Apply styles
-const defaultBtn = button({});
-const primaryBtn = button({}).theme('primary');
-const secondaryBtn = button({}).theme('secondary');
-        </pre
-          >
-        </div>
-      </div>
+  const appLeft = xkin.control("#app-left");
+  const appRight = xkin.control("#app-right");
 
-      <div class="section">
-        <h2>DOM Control</h2>
-        <div class="demo-area">
-          <button id="toggle-button">Toggle Classes</button>
-          <button id="hide-button">Hide Element</button>
-          <button id="show-button">Show Element</button>
-          <div
-            id="target-element"
-            style="width: 100px; height: 100px; background-color: #f0f0f0; margin-top: 10px"
-          >
-            Target
-          </div>
-        </div>
-        <div class="code-example">
-          <pre>
-const target = xkin.control('#target-element');
+  setInterval(() => {
+    appLeft.toggle("open-sidebar");
+    appRight.toggle("open-sidebar");
+  }, 2000);
+</script>
 
-// Toggle classes
-document.querySelector('#toggle-button').addEventListener('click', () => {
-  target.toggle('highlight');
-});
+</body>
 
-// Hide element
-document.querySelector('#hide-button').addEventListener('click', () => {
-  target.hide();
-});
-
-// Show element
-document.querySelector('#show-button').addEventListener('click', () => {
-  target.show();
-});
-        </pre
-          >
-        </div>
-      </div>
-
-      <div class="section">
-        <h2>Theme Management</h2>
-        <div class="demo-area">
-          <button class="theme-switcher" data-theme="light">Light Theme</button>
-          <button class="theme-switcher" data-theme="dark">Dark Theme</button>
-          <button class="theme-switcher" data-theme="contrast">High Contrast</button>
-          <div
-            id="theme-example"
-            style="
-              width: 100%;
-              height: 150px;
-              margin-top: 10px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-            "
-          >
-            Theme Example
-          </div>
-        </div>
-        <div class="code-example">
-          <pre>
-const themeExample = xkin.component({
-  base: {
-    style: 'transition: all 0.3s ease; width: 100%; height: 150px; display: flex; align-items: center; justify-content: center;'
-  },
-  theme: {
-    light: {
-      style: 'background-color: #f8f9fa; color: #212529;'
-    },
-    dark: {
-      style: 'background-color: #212529; color: #f8f9fa;'
-    },
-    contrast: {
-      style: 'background-color: #000; color: #fff; font-weight: bold;'
-    }
-  }
-});
-        </pre
-          >
-        </div>
-      </div>
-    </div>
-
-    <script type="module">
-      import * as xkin from "./src/main.ts";
-
-      // Setup styled components
-      const button = xkin.component({
-        base: {
-          style: "cursor: pointer; padding: 8px 16px; border-radius: 4px; border: none;",
-        },
-        theme: {
-          primary: {
-            style: "background-color: #0d6efd; color: white;",
-          },
-          secondary: {
-            style: "background-color: #6c757d; color: white;",
-          },
-        },
-      });
-
-      // Apply button styles
-      const defaultBtn = button({});
-      document.getElementById("default-button").setAttribute("style", defaultBtn.style);
-
-      const primaryBtn = button({}).theme("primary");
-      document.getElementById("primary-button").setAttribute("style", primaryBtn.style);
-
-      const secondaryBtn = button({}).theme("secondary");
-      document.getElementById("secondary-button").setAttribute("style", secondaryBtn.style);
-
-      // DOM Control example
-      const target = xkin.control("#target-element");
-
-      document.querySelector("#toggle-button").addEventListener("click", () => {
-        target.toggle("highlight");
-        if (target.contains("highlight")) {
-          target.current.style.backgroundColor = "#ffc107";
-        } else {
-          target.current.style.backgroundColor = "#f0f0f0";
-        }
-      });
-
-      document.querySelector("#hide-button").addEventListener("click", () => {
-        target.hide();
-      });
-
-      document.querySelector("#show-button").addEventListener("click", () => {
-        target.show();
-      });
-
-      // Theme management example
-      const themeExample = xkin.component({
-        base: {
-          style:
-            "transition: all 0.3s ease; width: 100%; height: 150px; display: flex; align-items: center; justify-content: center;",
-        },
-        theme: {
-          light: {
-            style: "background-color: #f8f9fa; color: #212529;",
-          },
-          dark: {
-            style: "background-color: #212529; color: #f8f9fa;",
-          },
-          contrast: {
-            style: "background-color: #000; color: #fff; font-weight: bold;",
-          },
-        },
-      });
-
-      const themeExampleEl = document.getElementById("theme-example");
-
-      // Apply default theme
-      const lightTheme = themeExample({}).theme("light");
-      themeExampleEl.setAttribute("style", lightTheme.style);
-
-      // Theme switchers
-      document.querySelectorAll(".theme-switcher").forEach((button) => {
-        button.addEventListener("click", () => {
-          const theme = button.dataset.theme;
-          const themeCss = themeExample({}).theme(theme);
-          themeExampleEl.setAttribute("style", themeCss.style);
-        });
-      });
-    </script>
-  </body>
 </html>

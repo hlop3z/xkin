@@ -42,8 +42,9 @@ export function swipe(
     }
   };
 
-  el.addEventListener("touchstart", handleTouchStart);
-  el.addEventListener("touchend", handleTouchEnd);
+  const options = { passive: true };
+  el.addEventListener("touchstart", handleTouchStart, options);
+  el.addEventListener("touchend", handleTouchEnd, options);
 
   // Return cleanup function
   return () => {
@@ -138,4 +139,96 @@ export function hover(
     el.removeEventListener("mouseenter", onEnter);
     el.removeEventListener("mouseleave", onLeave);
   };
+}
+
+/**
+ * Parameters for the `eventListener` function.
+ */
+export interface CreateEventListenerParams<T extends Event> {
+  /**
+   * The target element or object to attach the event listener to.
+   * Defaults to the global `document` object.
+   */
+  target?: EventTarget;
+  /**
+   * The type of event to listen for (e.g., 'click', 'mouseover', 'keydown').
+   */
+  type: string;
+  /**
+   * The callback function to execute when the event is triggered.
+   * The function receives the event object, cast to the specific type `T`.
+   */
+  callback: (event: T) => void;
+  /**
+   * An optional object specifying characteristics about the event listener.
+   * See the `addEventListener` options parameter for details.
+   */
+  options?: AddEventListenerOptions | boolean;
+}
+
+/**
+ * Dynamically creates and attaches an event listener to a specified target.
+ * Returns a function to easily remove the created event listener.
+ *
+ * @template T - The specific type of the event being listened for (e.g., MouseEvent, KeyboardEvent).
+ * @param {CreateEventListenerParams<T>} params - An object containing the listener configuration.
+ * @returns {() => void} A function that, when called, removes the attached event listener.
+ *
+ * @example
+ * ```typescript
+ * // Example 1: Listening for click events on a button
+ * const button = document.getElementById('myButton');
+ * if (button) {
+ *  const removeClickListener = eventListener<MouseEvent>({
+ *    target: button,
+ *    type: 'click',
+ *    callback: (event) => {
+ *      console.log('Button clicked!', event.clientX, event.clientY);
+ *    },
+ * });
+ *
+ * // To remove the listener later:
+ * // removeClickListener();
+ * }
+ *
+ * // Example 2: Listening for keydown events on the document
+ * const removeKeydownListener = eventListener<KeyboardEvent>({
+ *  type: 'keydown',
+ *  callback: (event) => {
+ *    console.log('Key pressed:', event.key, event.code);
+ *    if (event.key === 'Escape') {
+ *    removeKeydownListener(); // Remove the listener when Escape is pressed
+ *    console.log('Escape key pressed - listener removed.');
+ *  }
+ * },
+ * });
+ *
+ * // Example 3: Using capture phase for a scroll event on the window
+ * const removeScrollListener = eventListener<Event>({
+ *  target: window,
+ *  type: 'scroll',
+ *  callback: () => {
+ *    console.log('Window scrolled!');
+ *  },
+ *  options: { capture: true },
+ * });
+ *
+ * // To remove the scroll listener:
+ * // removeScrollListener();
+ * ```
+ */
+export function eventListener<T extends Event>({
+  target = document,
+  type,
+  callback,
+  options = {},
+}: CreateEventListenerParams<T>): () => void {
+  if (!type || typeof callback !== "function") {
+    throw new Error("Missing required 'type' or 'callback' function.");
+  }
+
+  const handler = (event: Event) => callback(event as T);
+  target.addEventListener(type, handler, options);
+
+  return () => target.removeEventListener(type, handler, options);
 }

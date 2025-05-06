@@ -29,7 +29,7 @@
     "declaration": true,
     "emitDeclarationOnly": false,
     "outDir": "dist",
-    
+
     // Improve declaration file handling
     "declarationMap": true,
     "composite": true,
@@ -38,5 +38,6 @@
     },
     "baseUrl": "."
   },
-  "include": ["node_modules/vite/client.d.ts", "globals.d.ts", "src/**/*"]
+  "include": ["node_modules/vite/client.d.ts", "globals.d.ts", "src/**/*", "test_live"]
+  // "exclude": ["tests/"]
 }

@@ -1,5 +1,5 @@
-import { elementAdmin } from "./element";
-import type { RefAdmin } from "./element";
+import { elementAdmin } from "./ref_admin";
+import type { RefAdmin } from "./ref_admin";
 
 /**
  * Queries for a single element with attribute selector.

@@ -1,136 +1,103 @@
 import injectCSS from "./inject.ts";
 
-const IS_DARK = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
 
-class ThemeCreator {
-  base: any;
-  dark: any;
-  disable: any;
-  zebra: string | boolean;
-  colors: any;
-  current: any;
-  isDark: boolean;
+interface ThemeOptions {
+  base?: Record<string, string>;
+  dark?: Record<string, string>;
+  disable?: string[];
+  zebra?: string | boolean;
+  darkMode?: boolean;
+}
 
-  constructor({ base = {}, dark = {}, disable = [], zebra = false, darkMode = undefined }: any) {
-    const isDark = darkMode === undefined ? IS_DARK : darkMode;
-    const init = Object.keys(base).length > 0;
+type ColorGroup = "background" | "border" | "text" | "table";
+
+class Theme {
+  private base: Record<string, string>;
+  private dark: Record<string, string>;
+  private disable: Set<string>;
+  private zebra: string | false;
+  private colors: string[] = [];
+  private current: Record<string, string>;
+  private isDark: boolean;
+
+  constructor({ base = {}, dark = {}, disable = [], zebra = false, darkMode }: ThemeOptions = {}) {
+    this.isDark = darkMode ?? prefersDark;
     this.base = base;
-    this.dark = { ...base, ...(dark || {}) };
-    this.disable = disable;
-    this.zebra = init && zebra ? "#f2f2f2" : false;
-    this.colors = [];
-    this.current = isDark ? this.dark : base;
-    this.isDark = isDark;
+    this.dark = { ...base, ...dark };
+    this.disable = new Set(disable);
+    this.zebra = Object.keys(base).length && zebra ? (zebra === true ? "#f2f2f2" : zebra) : false;
+    this.current = this.isDark ? this.dark : this.base;
   }
 
-  createTheme() {
-    const cssCode = this.generateThemeColors();
-    injectCSS(cssCode, "theme-colors");
-    this.generateNames();
+  create() {
+    injectCSS(this.generateCSS(), "theme-colors");
+    this.colors = Object.keys(this.current);
   }
 
-  toggle(value: boolean) {
-    if (value === undefined || value === null) {
-      this.isDark = !this.isDark;
-    } else {
-      this.isDark = value;
-    }
-    if (this.isDark) {
-      this.current = this.dark;
-    } else {
-      this.current = this.base;
-    }
-    this.createTheme();
+  toggle(force?: boolean) {
+    this.isDark = force ?? !this.isDark;
+    this.current = this.isDark ? this.dark : this.base;
+    this.create();
   }
 
-  generateNames() {
-    const items: any = [];
-    Object.keys(this.current).forEach((x) => items.push(x));
-    this.colors = items;
-  }
-
-  generateThemeColors() {
+  private generateCSS(): string {
     let css = "";
-    const isDisable = (value: any) => this.disable.includes(value);
 
-    // Default Table Color (ODDS)
-    if (this.zebra) css += this.colorDefaultTableZebra(this.zebra);
+    if (this.zebra) {
+      css += `tbody tr:nth-child(even) { background-color: ${this.zebra}; }\n`;
+    }
 
-    // Generate Theme Colors
-    Object.entries(this.current).forEach(([name, color]) => {
-      const buildColor = (group: any) => this.buildColorStyles(group, name, color);
-
-      const addColorGroup = (group: any) => {
-        if (!isDisable(group)) css += buildColor(group);
-      };
-
-      addColorGroup("background");
-      addColorGroup("text");
-      addColorGroup("border");
-      addColorGroup("table");
-    });
+    for (const [name, color] of Object.entries(this.current)) {
+      for (const group of ["background", "text", "border", "table"] as ColorGroup[]) {
+        if (!this.disable.has(group)) {
+          css += this.buildStyle(group, name, color);
+        }
+      }
+    }
 
     return css;
   }
 
-  buildColorStyles(group: any, name: any, color: any) {
-    const method: any = Color[group];
-    let css = "";
-    css += method(name, color);
-    return css;
+  private buildStyle(group: ColorGroup, name: string, color: string): string {
+    const className = getClassName(group, name);
+    const style = styleGenerators[group](color);
+    return group === "table" ? `.${className} ${style}\n` : `.${className} { ${style} }\n`;
   }
 
-  colorDefaultTableZebra(color: any) {
-    return `tbody tr:nth-child(even) { background-color: ${color}; }\n`;
+  getColorKeys(): string[] {
+    return this.colors;
   }
 }
 
-const ColorBase: any = {
-  background: (color: any) => `background-color: ${color} !important;`,
-  border: (color: any) => `border-color: ${color} !important;`,
-  text: (color: any) => `color: ${color} !important;`,
-  table: (color: any) => `tbody tr:nth-child(even) { background-color: ${color} !important; }\n`,
+const styleGenerators: Record<ColorGroup, (color: string) => string> = {
+  background: (color) => `background-color: ${color} !important;`,
+  border: (color) => `border-color: ${color} !important;`,
+  text: (color) => `color: ${color} !important;`,
+  table: (color) => `{ background-color: ${color} !important; }`,
 };
 
-const generateStyle = (group: any, name: any, color: any) => {
-  if (group === "table") {
-    return `.${getClass(group, name)} ${ColorBase[group](color)}\n`;
-  } else {
-    return `.${getClass(group, name)} { ${ColorBase[group](color)} }\n`;
-  }
-};
-
-const Color: any = {
-  background: (name: any, color: any) => generateStyle("background", name, color),
-  border: (name: any, color: any) => generateStyle("border", name, color),
-  text: (name: any, color: any) => generateStyle("text", name, color),
-  table: (name: any, color: any) => generateStyle("table", name, color),
-};
-
-// @ts-ignore
-let currentTheme = new ThemeCreator({});
-
-function createTheme(args: any): void {
-  const current = new ThemeCreator(args);
-  current.createTheme();
-  currentTheme = current;
-}
-
-function getClass(type: "background" | "border" | "text" | "table", name: string): void {
-  const util: any = {
-    background: (name: any) => `color-bg-${name}`,
-    border: (name: any) => `color-br-${name}`,
-    text: (name: any) => `color-tx-${name}`,
-    table: (name: any) => `color-tb-${name}`,
+function getClassName(type: ColorGroup, name: string): string {
+  const prefixMap: Record<ColorGroup, string> = {
+    background: "color-bg",
+    border: "color-br",
+    text: "color-tx",
+    table: "color-tb",
   };
-  return util[type](name);
+  return `${prefixMap[type]}-${name}`;
 }
+
+// Singleton controller
+let currentTheme = new Theme();
 
 export default {
-  set: createTheme,
-  class: getClass,
-  toggle(value: any = undefined) {
-    currentTheme.toggle(value);
+  class: getClassName,
+  set(options: ThemeOptions) {
+    currentTheme = new Theme(options);
+    currentTheme.create();
+  },
+  toggle(force?: boolean) {
+    currentTheme.toggle(force);
   },
   get info() {
     return currentTheme;

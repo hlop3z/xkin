@@ -24,9 +24,9 @@ export { StyledComponent as component } from "./lib/component";
 
 /**
  * Creates admin control elements
- * @see "./lib/element" for implementation details
+ * @see "./lib/ref_admin" for implementation details
  */
-export { createAdmin as control } from "./lib/element";
+export { createAdmin as control } from "./lib/ref_admin";
 
 /**
  * Query selector functions for attribute-based DOM element selection
@@ -63,3 +63,15 @@ export { hover, clickOutside, swipe } from "./lib/directives";
  * @see "./lib/layout" for implementation details
  */
 export { default as layout } from "./lib/layout";
+
+/**
+ * Layout utilities for component positioning and structure
+ * @see "./lib/element" for implementation details
+ */
+export { default as element } from "./lib/element";
+
+/**
+ * Layout utilities for component positioning and structure
+ * @see "./lib/py_class" for implementation details
+ */
+export { default as object } from "./lib/py_class";
